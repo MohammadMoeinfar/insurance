@@ -14,6 +14,10 @@
         <meta-data android:name="android.app.lib_name"
                    android:value="MyGame" />
 
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCaz0zFMfWsTkBiZShWUc4Ke9WMNPx73c0" />
+
         <activity
             android:name="org.cocos2dx.cpp.AppActivity"
             android:screenOrientation="portrait"
@@ -26,8 +30,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name="org.cocos2dx.cpp.MapsMarkerActivity"/>
+
     </application>
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     
 </manifest>

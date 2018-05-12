@@ -23,10 +23,14 @@ THE SOFTWARE.
 ****************************************************************************/
 package org.cocos2dx.cpp;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import org.cocos2dx.lib.Cocos2dxActivity;
 
 public class AppActivity extends Cocos2dxActivity {
+
+    private static Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +45,14 @@ public class AppActivity extends Cocos2dxActivity {
             return;
         }
         // DO OTHER INITIALIZATION BELOW
+
+        mContext = AppActivity.this;
         
+    }
+
+    public static void showMap(){
+        Intent intent = new Intent(mContext, MapsMarkerActivity.class);
+        mContext.startActivity(intent);
     }
 
 }
