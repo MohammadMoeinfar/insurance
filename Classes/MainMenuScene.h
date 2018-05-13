@@ -22,6 +22,7 @@ public:
 
     void textFieldEvent(Ref *pSender, TextField::EventType type);
     void buttonEvent(Ref* pSender, Widget::TouchEventType type);
+    void readData();
 
     Size visibleSize;
     Vec2 origin;

@@ -41,6 +41,8 @@ MainMenuScene *MainMenuScene::initMainMenuScene() {
         title->setPosition(Vec2(logo->getPositionX(), logo->getPositionY() - logo->getContentSize().height / 2 - 15));
         mainMenuScene->addChild(title);
 
+        mainMenuScene->readData();
+
         return mainMenuScene;
     }
 
@@ -99,5 +101,31 @@ void MainMenuScene::buttonEvent(Ref *pSender, Widget::TouchEventType type)
         }
             break;
     }
+}
+
+void MainMenuScene::readData() {
+
+    long filesize = 0;
+    string content;
+    string fullPath = "MockData.json";
+
+    auto fileData = FileUtils::getInstance()->getFileData(fullPath.c_str(), "r", (ssize_t *) &filesize);
+    content.append((char*)fileData);
+
+    if (strcmp(content.c_str(), ""))
+        if (strcmp(content.c_str(), "[]"))
+        {
+            Document document;
+            document.Parse(content.c_str());
+
+            for (int ind = 0; ind <= document.Size() - 1; ind++)
+            {
+                auto str = document[ind]["Login"].GetString();
+                int x=0;
+            }
+        }
+
+    int x=0;
+
 }
 
