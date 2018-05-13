@@ -31,7 +31,7 @@ bool HelloWorld::init()
     auto showMap = Button::create("button.png", "button.png");
     showMap->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
     showMap->setTitleText("SHOW MAP");
-    showMap->setTitleFontSize(35);
+    showMap->setTitleFontSize(10);
     showMap->addTouchEventListener(CC_CALLBACK_2(HelloWorld::mapEvent, this));
     addChild(showMap);
 
