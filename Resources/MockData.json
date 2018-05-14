@@ -1,1 +1,47 @@
-[{"Login":"{\"UN\":farid,\"HPass\":(*@JKDQKLJP@)_@!}"}]
+1-Login:
+request:  {UN:"farid", HPass:"(*@JKDQKLJP@)_@!"}
+response: {SessionID:"12-9374jdquwr89431uuj", AccKey:"q.w[i,rpqjoiu3u31p4uty3", SessionExpUtc:"1436264326325"}
+
+
+
+2-Daily operation:
+request:  {rptName:"DailyOperation", rtpStartUtc:"1436264326325", rptEndUtc:"1436264326325"}
+response: {Milage:"36", MilageUnit:"Km", DriveTime:"01:08:46", Score:"9.7", SpeedLimitF:"0", HarshDrive:"0.01", UnsafeFieldDrive:"0.05", SomeOtherParam:"XXXXX"}
+
+
+
+3-Periodic report:
+request:  {rptName:"PeriodicOperation", rtpStartUtc:"1436264326325", rptEndUtc:"1436264326325"}
+response: {Milage:"36", MilageUnit:"KM", DriveTime:"01:08:46", Score:"9.7", SpeedLimitF:"0", HarshDrive:"0.01", UnsafeFieldDrive:"0.05", SomeOtherParam:"XXXXX"}
+
+
+
+
+4-Insurance report:
+request:  {rptName:"MyInsurances"}
+response: {ListOfInsurances:[{InsuranceTitle:"ThirdParty", InsuranceID:"89766578866", InsuranceStartUtc:"6453343435", InsuranceEndUtc:"7665765675", SomeMoreInsuranceData:"hggfufu"},{InsuranceTitle:"CarBody", InsuranceID:"89766578866", InsuranceStartUtc:"6453343435", InsuranceEndUtc:"7665765675", SomeMoreInsuranceData:"hggfufu"},{InsuranceTitle:"LifeAndHealth", InsuranceID:"89766578866", InsuranceStartUtc:"6453343435", InsuranceEndUtc:"7665765675", SomeMoreInsuranceData:"hggfufu"}]}
+
+
+
+5-Car health report:
+request:  {rptName:"MyCarHealth"}
+response: {CarHealthReport:[{EcuName:"Engine", EcuDtc:[{"p001":"Some where is faulty!!!","u034":"Some where else is faulty!!!"}]},{EcuName:"ABS", EcuDtc:[{"p001":"Some where is faulty!!!","u034":"Some where else is faulty!!!"}]},{EcuName:"BSI", EcuDtc:[{"p001":"Some where is faulty!!!","u034":"Some where else is faulty!!!"}]}]}
+
+
+
+6-Car position:
+request:  {rptName:"WhereIsMyCar"}
+response: {LatestCarLocation:"54234.54, 65467.76", LatestLocationTimeUtc:"8965645454"}
+
+
+
+7-Near distance service position:
+request:  {rptName:"NearServiceRequest", MyLocation:"655409.98, 97564.54", serviceTitle:"Gas station", distance:"3Km"}
+response: {ServicePoints:[{serviceTitle:"Gas station 1", ServiceID:"85645594", ServiceLocation:"567476.60, 65675.04"}, {serviceTitle:"Gas station 2", ServiceID:"54598974", ServiceLocation:"324476.60, 20995.04"}]}
+
+
+
+
+
+
+
