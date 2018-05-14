@@ -44,4 +44,14 @@ static Vec2 origin = Director::getInstance()->getVisibleOrigin();
 #define HARSH_DRIVE "درایو سخت"
 #define UNSAFE_FIELD_DRIVE "فیلد درایو ناامن"
 
+struct ValueDailyOperation
+{
+    float mileage  = 0.0;
+    string driveTime = "";
+    float score = 9.7;
+    float speedLimit = 0.0;
+    float harshDrive = 0.0;
+    float unsafeFieldDrive = 0.0;
+};
+
 #endif //APPMACROS_H

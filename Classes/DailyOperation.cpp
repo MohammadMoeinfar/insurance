@@ -47,6 +47,15 @@ DailyOperation *DailyOperation::initDailyOperation() {
                                HARSH_DRIVE,
                                UNSAFE_FIELD_DRIVE};
 
+        ValueDailyOperation initValueDailyOperation;
+
+        initValueDailyOperation.mileage = 36;
+        initValueDailyOperation.driveTime = "01:08:46";
+        initValueDailyOperation.score = 9.7;
+        initValueDailyOperation.speedLimit = 0;
+        initValueDailyOperation.harshDrive = 0.01;
+        initValueDailyOperation.unsafeFieldDrive = 0.05;
+
         for(int i = 0; i < 7; i++)
         {
             auto titles = LabelTTF::create(textArray[i], MAINFONT, 30);
@@ -60,6 +69,54 @@ DailyOperation *DailyOperation::initDailyOperation() {
             backField->setScale9Enabled(true);
             backField->setPosition(Vec2(backField->getContentSize().width - 80, mainTitle->getPositionY() - 150 - (titles->getContentSize().height * i)));
             dailyOperation->addChild(backField);
+
+            auto values = LabelTTF::create();
+            values->setPosition(Vec2(backField->getPositionX(), backField->getPositionY()));
+            values->setColor(Color3B::BLACK);
+            values->setFontName(MAINFONT);
+            values->setFontSize(30);
+            dailyOperation->addChild(values);
+
+            switch (i)
+            {
+                case 0:
+                {
+                    values->setString(StringUtils::format("%.3f", initValueDailyOperation.mileage));
+                }
+                    break;
+                case 1:
+                {
+                    values->setString("Km");
+                }
+                    break;
+                case 2:
+                {
+                    values->setString(initValueDailyOperation.driveTime);
+                }
+                    break;
+                case 3:
+                {
+                    values->setString(StringUtils::format("%.3f", initValueDailyOperation.score));
+                }
+                    break;
+                case 4:
+                {
+                    values->setString(StringUtils::format("%.3f", initValueDailyOperation.speedLimit));
+                }
+                    break;
+                case 5:
+                {
+                    values->setString(StringUtils::format("%.3f", initValueDailyOperation.harshDrive));
+                }
+                    break;
+                case 6:
+                {
+                    values->setString(StringUtils::format("%.3f", initValueDailyOperation.unsafeFieldDrive));
+                }
+                    break;
+                default:
+                    break;
+            }
         }
 
         return dailyOperation;
