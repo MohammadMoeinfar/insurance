@@ -41,7 +41,28 @@ MainMenuScene *MainMenuScene::initMainMenuScene() {
         title->setPosition(Vec2(logo->getPositionX(), logo->getPositionY() - logo->getContentSize().height / 2 - 15));
         mainMenuScene->addChild(title);
 
-        mainMenuScene->readData();
+        string titleButtonArray [] = {TITLE_DAILY_OPERATION,
+                                      TITLE_PERIODIC_REPORT,
+                                      TITLE_INSURANCE_REPORT,
+                                      TITLE_CAR_HEALTH_REPORT,
+                                      TITLE_CAR_POSITION,
+                                      TITLE_NEAR_DISTANCE_SERVICE_POSITION};
+
+        for(int i = 0; i < 6; i++)
+        {
+            auto buttons = Button::create("loginButton.png", "loginButton.png");
+            buttons->setPosition(Vec2(mainMenuScene->visibleSize.width / 2, mainMenuScene->visibleSize.height / 2 - ((buttons->getContentSize().height + 5) * i)));
+            //buttons->setTitleText(titleButtons[i]);
+            //buttons->setTitleFontSize(20);
+            buttons->setTag(1001 + i);
+            buttons->setPressedActionEnabled(true);
+            buttons->addTouchEventListener(CC_CALLBACK_2(MainMenuScene::buttonEvent, mainMenuScene));
+            mainMenuScene->addChild(buttons);
+
+            auto titleButtons = LabelTTF::create(titleButtonArray[i], MAINFONT, 30);
+            titleButtons->setPosition(Vec2(mainMenuScene->visibleSize.width / 2, mainMenuScene->visibleSize.height / 2 - ((buttons->getContentSize().height + 5) * i)));
+            mainMenuScene->addChild(titleButtons);
+        }
 
         return mainMenuScene;
     }
@@ -97,7 +118,40 @@ void MainMenuScene::buttonEvent(Ref *pSender, Widget::TouchEventType type)
     {
         case Widget::TouchEventType::ENDED:
         {
-            // comment
+            switch (sender->getTag())
+            {
+                case DAILY_OPERATION:
+                {
+                    auto scene = DailyOperation::createScene();
+                    Director::getInstance()->replaceScene(TransitionMoveInR::create(0.5, scene));
+                }
+                    break;
+                case PERIODIC_REPORT:
+                {
+
+                }
+                    break;
+                case INSURANCE_REPORT:
+                {
+
+                }
+                    break;
+                case CAR_HEALTH_REPORT:
+                {
+
+                }
+                    break;
+                case CAR_POSITION:
+                {
+
+                }
+                    break;
+                case NEAR_DISTANCE_SERVICE_POSITION:
+                {
+
+                }
+                    break;
+            }
         }
             break;
     }

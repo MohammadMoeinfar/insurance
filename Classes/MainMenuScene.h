@@ -8,6 +8,7 @@
 #include "cocos2d.h"
 #include "AppMacros.h"
 #include "ui/CocosGUI.h"
+#include "DailyOperation.h"
 
 using namespace cocos2d::ui;
 

@@ -75,10 +75,14 @@ Login *Login::initLogin() {
 
         auto loginButton = Button::create("loginButton.png", "loginButton.png");
         loginButton->setPosition(Vec2(backpassword->getPositionX(), backpassword->getPositionY() - 85));
-        loginButton->setTitleText("LOG IN");
-        loginButton->setTitleFontSize(20);
+        //loginButton->setTitleText("LOG IN");
+        //loginButton->setTitleFontSize(20);
         loginButton->addTouchEventListener(CC_CALLBACK_2(Login::buttonEvent, login));
         login->addChild(loginButton);
+
+        auto titleLoginButton = LabelTTF::create(TITLELOGINBUTTON, MAINFONT, 30);
+        titleLoginButton->setPosition(Vec2(backpassword->getPositionX(), backpassword->getPositionY() - 85));
+        login->addChild(titleLoginButton);
 
         return login;
     }
