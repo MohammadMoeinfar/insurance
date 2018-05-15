@@ -54,6 +54,14 @@ static Vec2 origin = Director::getInstance()->getVisibleOrigin();
 #define INSURANCE_END "پایان بیمه"
 #define MORE_DESCRIPTION "توضیحات اضافی"
 
+#define PART_TITLE "عنوان"
+#define P001 "P001"
+#define U034 "U034"
+
+#define ENGINE "موتور"
+#define ABS_BRAKES "ABS"
+#define BSI "BSI"
+
 struct ValueDailyOperation
 {
     float mileage  = 0.0;
@@ -109,6 +117,35 @@ struct ListOfInsurances
 
 };
 
+struct ListOfCarHealth
+{
+    struct UnitEngine
+    {
+        string EcuName = "";
+        string p001 = "";
+        string u034 = "";
+    };
+
+    struct UnitABS
+    {
+        string EcuName = "";
+        string p001 = "";
+        string u034 = "";
+    };
+
+    struct UnitBSI
+    {
+        string EcuName = "";
+        string p001 = "";
+        string u034 = "";
+    };
+
+    UnitEngine theUnitEngine;
+    UnitABS theUnitABS;
+    UnitBSI theUnitBSI;
+
+};
+
 static std::vector <std::vector < std::string > > initInsurances()
 {
     std::vector <std::vector < std::string > >arrTitlesInsuranceReport =
@@ -136,6 +173,29 @@ static std::vector <std::vector < std::string > > initInsurances()
                     }
             };
     return arrTitlesInsuranceReport;
+}
+
+static std::vector <std::vector < std::string > > initCarHealth()
+{
+    std::vector <std::vector < std::string > >arrTitlesCarHealth =
+            {
+                    {
+                            {PART_TITLE},
+                            {P001},
+                            {U034}
+                    },
+                    {
+                            {PART_TITLE},
+                            {P001},
+                            {U034}
+                    },
+                    {
+                            {PART_TITLE},
+                            {P001},
+                            {U034}
+                    }
+            };
+    return arrTitlesCarHealth;
 }
 
 #endif //APPMACROS_H

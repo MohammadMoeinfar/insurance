@@ -130,7 +130,7 @@ InsuranceReport *InsuranceReport::initInsuranceReport() {
                     {
                         switch (j)
                         {
-                            case 0: values->setString(THIRDPARTY);
+                            case 0: values->setString(LIFE_HEALTH);
                                 break;
                             case 1: values->setString(StringUtils::format("%lli", initListOfInsurances.theLifeAndHealth.insuranceID));
                                 break;

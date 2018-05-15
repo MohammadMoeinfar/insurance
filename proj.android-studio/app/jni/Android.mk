@@ -19,6 +19,7 @@ LOCAL_SRC_FILES := $(LOCAL_PATH)/hellocpp/main.cpp \
                    $(LOCAL_PATH)/../../../Classes/DailyOperation.cpp \
                    $(LOCAL_PATH)/../../../Classes/PeriodicReport.cpp \
                    $(LOCAL_PATH)/../../../Classes/InsuranceReport.cpp \
+                   $(LOCAL_PATH)/../../../Classes/CarHealthReport.cpp \
                    $(LOCAL_PATH)/../../../Classes/HelloWorldScene.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes
