@@ -44,6 +44,16 @@ static Vec2 origin = Director::getInstance()->getVisibleOrigin();
 #define HARSH_DRIVE "درایو سخت"
 #define UNSAFE_FIELD_DRIVE "فیلد درایو ناامن"
 
+#define THIRDPARTY "شخص ثالث"
+#define CARBODY "بدنه ماشین"
+#define LIFE_HEALTH "زندگی و سلامت"
+
+#define INSURANCE_TITLE "عنوان بیمه"
+#define INSURANCE_ID "شناسه بیمه"
+#define INSURANCE_START "شروع بیمه"
+#define INSURANCE_END "پایان بیمه"
+#define MORE_DESCRIPTION "توضیحات اضافی"
+
 struct ValueDailyOperation
 {
     float mileage  = 0.0;
@@ -63,5 +73,69 @@ struct ValuePeriodicReport
     float harshDrive = 0.0;
     float unsafeFieldDrive = 0.0;
 };
+
+struct ListOfInsurances
+{
+    struct ThirdParty
+    {
+        string insuranceTitle = "";
+        long long int insuranceID = 0;
+        long long int insuranceStartUtc = 0;
+        long long int insuranceEndUtc = 0;
+        string someMoreInsuranceData = "";
+    };
+
+    struct CarBody
+    {
+        string insuranceTitle = "";
+        long long int insuranceID = 0;
+        long long int insuranceStartUtc = 0;
+        long long int insuranceEndUtc = 0;
+        string someMoreInsuranceData = "";
+    };
+
+    struct LifeAndHealth
+    {
+        string insuranceTitle = "";
+        long long int insuranceID = 0;
+        long long int insuranceStartUtc = 0;
+        long long int insuranceEndUtc = 0;
+        string someMoreInsuranceData = "";
+    };
+
+    ThirdParty theThirdParty;
+    CarBody theCarBody;
+    LifeAndHealth theLifeAndHealth;
+
+};
+
+static std::vector <std::vector < std::string > > initInsurances()
+{
+    std::vector <std::vector < std::string > >arrTitlesInsuranceReport =
+            {
+                    {
+                            {INSURANCE_TITLE},
+                            {INSURANCE_ID},
+                            {INSURANCE_START},
+                            {INSURANCE_END},
+                            {MORE_DESCRIPTION}
+                    },
+                    {
+                            {INSURANCE_TITLE},
+                            {INSURANCE_ID},
+                            {INSURANCE_START},
+                            {INSURANCE_END},
+                            {MORE_DESCRIPTION}
+                    },
+                    {
+                            {INSURANCE_TITLE},
+                            {INSURANCE_ID},
+                            {INSURANCE_START},
+                            {INSURANCE_END},
+                            {MORE_DESCRIPTION}
+                    }
+            };
+    return arrTitlesInsuranceReport;
+}
 
 #endif //APPMACROS_H
