@@ -48,7 +48,17 @@ struct ValueDailyOperation
 {
     float mileage  = 0.0;
     string driveTime = "";
-    float score = 9.7;
+    float score = 0.0;
+    float speedLimit = 0.0;
+    float harshDrive = 0.0;
+    float unsafeFieldDrive = 0.0;
+};
+
+struct ValuePeriodicReport
+{
+    float mileage  = 0.0;
+    string driveTime = "";
+    float score = 0.0;
     float speedLimit = 0.0;
     float harshDrive = 0.0;
     float unsafeFieldDrive = 0.0;
