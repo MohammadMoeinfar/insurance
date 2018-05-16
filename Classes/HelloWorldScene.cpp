@@ -1,5 +1,6 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
+#include <jni.h>
 
 USING_NS_CC;
 
@@ -45,14 +46,29 @@ void HelloWorld::mapEvent(Ref *pSender, Widget::TouchEventType type) {
         case Widget::TouchEventType::ENDED:
         {
             std::string jFunction = "";
-            jFunction = "showMap";
+            jFunction = "showStr";
 #if(CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID )
-            cocos2d::JniMethodInfo t;
+            /*cocos2d::JniMethodInfo t;
             if (cocos2d::JniHelper::getStaticMethodInfo(t, "org/cocos2dx/cpp/AppActivity", jFunction.c_str(), "()V"))
             {
+
                 t.env->CallStaticVoidMethod(t.classID, t.methodID);
                 t.env->DeleteLocalRef(t.classID);
+            }*/
+
+            cocos2d::JniMethodInfo t;
+            if (cocos2d::JniHelper::getStaticMethodInfo(t, "org/cocos2dx/cpp/AppActivity", jFunction.c_str(), "([D)V"))
+            {
+                double lat [] = {23.32, 43.21};
+                double lot [] = {12.32, 36.21};
+
+                jdoubleArray jdoubleArray1 = t.env->NewDoubleArray(2);
+                t.env->SetDoubleArrayRegion(jdoubleArray1, 0, 2, &lat[0]);
+
+                t.env->CallStaticVoidMethod(t.classID, t.methodID, jdoubleArray1);
+                t.env->DeleteLocalRef(t.classID);
             }
+
 #endif
         }
             break;

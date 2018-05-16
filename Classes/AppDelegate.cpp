@@ -4,7 +4,8 @@
 //#include "DailyOperation.h"
 //#include "PeriodicReport.h"
 //#include "InsuranceReport.h"
-#include "CarHealthReport.h"
+//#include "CarHealthReport.h"
+#include "CarLocation.h"
 
 // #define USE_AUDIO_ENGINE 1
 // #define USE_SIMPLE_AUDIO_ENGINE 1
@@ -94,7 +95,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
     //auto scene = DailyOperation::createScene();
     //auto scene = PeriodicReport::createScene();
     //auto scene = InsuranceReport::createScene();
-    auto scene = CarHealthReport::createScene();
+    //auto scene = CarHealthReport::createScene();
+    auto scene = CarLocation::createScene();
 
     // run
     director->runWithScene(scene);

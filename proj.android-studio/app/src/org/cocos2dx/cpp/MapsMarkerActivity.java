@@ -1,5 +1,6 @@
 package org.cocos2dx.cpp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
@@ -15,14 +16,17 @@ public class MapsMarkerActivity extends FragmentActivity
         implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private double[] position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Retrieve the content view that renders the map.
         setContentView(R.layout.activity_maps);
-        // Get the SupportMapFragment and request notification
-        // when the map is ready to be used.
+
+        Intent intent = getIntent();
+        position = intent.getDoubleArrayExtra("array");
+
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -42,7 +46,7 @@ public class MapsMarkerActivity extends FragmentActivity
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(36.2411826, 46.2429565);
+        LatLng sydney = new LatLng(position[0], position[1]);
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }

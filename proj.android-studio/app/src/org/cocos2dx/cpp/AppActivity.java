@@ -50,9 +50,16 @@ public class AppActivity extends Cocos2dxActivity {
         
     }
 
-    public static void showMap(){
+    public static void showMap(double[] _dbl1){
         Intent intent = new Intent(mContext, MapsMarkerActivity.class);
+
+        intent.putExtra("array", _dbl1);
+
         mContext.startActivity(intent);
+    }
+
+    public static void showStr(double[] _dbl1){
+        int x = 0;
     }
 
 }
