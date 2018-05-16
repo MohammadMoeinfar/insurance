@@ -31,7 +31,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="org.cocos2dx.cpp.MapsMarkerActivity"/>
+        <!-- <activity android:name="org.cocos2dx.cpp.MapsMarkerActivity"/> -->
 
     </application>
 

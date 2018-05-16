@@ -3,10 +3,13 @@ package org.cocos2dx.cpp;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
+import android.widget.Toast;
 
 import com.cocos2dx.insurance.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -16,8 +19,20 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class CalculateDistance extends FragmentActivity
         implements OnMapReadyCallback {
@@ -59,7 +74,23 @@ public class CalculateDistance extends FragmentActivity
             return;
         }
         mMap.setMyLocationEnabled(true);
-        mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+
+        LatLng myLocation = new LatLng(36.23712506649852, 46.266285292804234);
+        //mMap.addMarker(new MarkerOptions().position(myLocation).title("My location"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(myLocation));
+
+        LatLng point1 = new LatLng(36.23712506649852, 46.266285292804234);
+        mMap.addMarker(new MarkerOptions().position(point1).title("My location"));
+
+        LatLng point2 = new LatLng(36.237609668685714, 46.27323791384697);
+        mMap.addMarker(new MarkerOptions().position(point2).title("Target location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+
+        String url = getRequestUrl(point1, point2 /*point2listPoints.get(0), listPoints.get(1)*/);
+        TaskRequestDirections taskRequestDirections = new TaskRequestDirections();
+        taskRequestDirections.execute(url);
+
+
+        /*mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(LatLng latLng) {
                 if (listPoints.size() == 2)
@@ -85,10 +116,13 @@ public class CalculateDistance extends FragmentActivity
 
                 if (listPoints.size() == 2)
                 {
-                    String url = getRequestUrl(listPoints.get(0), listPoints.get(1));
+
+                    String url = getRequestUrl(LatLng(), LatLng()*//*listPoints.get(0), listPoints.get(1)*//*);
+                    TaskRequestDirections taskRequestDirections = new TaskRequestDirections();
+                    taskRequestDirections.execute(url);
                 }
             }
-        });
+        });*/
 
     }
 
@@ -98,10 +132,46 @@ public class CalculateDistance extends FragmentActivity
         String str_dest = "destination=" + dest.latitude +","+dest.longitude;
         String sensor = "sensor=false";
         String mode = "mode=driving";
-        String param = str_org +"&"+str_dest +"&"+sensor +"&"+mode;
+        String param = str_org +"&"+ str_dest + "&" +sensor +"&" +mode;
         String output = "json";
-        String url = "https://maps.googleapis.com/map/api/directions/" + output + "?" + param;
+        String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + param;
         return url;
+    }
+
+    private String requestDirection(String reqUrl) throws IOException {
+        String responceString = "";
+        InputStream inputStream = null;
+        HttpURLConnection httpURLConnection = null;
+
+        try {
+
+            URL url = new URL(reqUrl);
+            httpURLConnection = (HttpURLConnection) url.openConnection();
+            httpURLConnection.connect();
+
+            inputStream = httpURLConnection.getInputStream();
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+            StringBuffer stringBuffer = new StringBuffer();
+            String line = "";
+            while ((line = bufferedReader.readLine()) != null){
+                stringBuffer.append(line);
+            }
+            responceString = stringBuffer.toString();
+            bufferedReader.close();
+            inputStreamReader.close();
+
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }finally {
+            if (inputStream != null){
+                inputStream.close();
+            }
+            httpURLConnection.disconnect();
+        }
+        return responceString;
     }
 
     @SuppressLint("MissingPermission")
@@ -115,6 +185,76 @@ public class CalculateDistance extends FragmentActivity
                     mMap.setMyLocationEnabled(true);
                 }
                 break;
+        }
+    }
+
+    public class TaskRequestDirections extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            String responceString = "";
+            try {
+                responceString = requestDirection(params[0]);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return responceString;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            TaskParser taskParser = new TaskParser();
+            taskParser.execute(s);
+        }
+    }
+
+    public class TaskParser extends AsyncTask<String, Void, List<List<HashMap<String, String>>> >{
+
+        @Override
+        protected List<List<HashMap<String, String>>> doInBackground(String... params) {
+            JSONObject jsonObject = null;
+            List<List<HashMap<String, String>>> routes = null;
+
+            try {
+                jsonObject = new JSONObject(params[0]);
+                DirectionsParser directionsParser = new DirectionsParser();
+                routes = directionsParser.parse(jsonObject);
+            }catch (JSONException e){
+                e.printStackTrace();
+            }
+            return routes;
+        }
+
+        @Override
+        protected void onPostExecute(List<List<HashMap<String, String>>> lists) {
+            ArrayList points = null;
+
+            PolylineOptions polylineOptions = null;
+
+            for (List<HashMap<String, String>> path : lists){
+                points = new ArrayList();
+                polylineOptions = new PolylineOptions();
+
+                for (HashMap<String, String> point : path){
+                    double lat = Double.parseDouble(point.get("lat"));
+                    double lon = Double.parseDouble(point.get("lon"));
+
+                    points.add(new LatLng(lat, lon));
+                }
+
+                polylineOptions.addAll(points);
+                polylineOptions.width(15);
+                polylineOptions.color(Color.BLUE);
+                polylineOptions.geodesic(true);
+            }
+            if(polylineOptions != null){
+                mMap.addPolyline(polylineOptions);
+            }
+            else {
+                Toast.makeText(getApplicationContext(), "Direction not found!", Toast.LENGTH_LONG).show();
+            }
         }
     }
 }
