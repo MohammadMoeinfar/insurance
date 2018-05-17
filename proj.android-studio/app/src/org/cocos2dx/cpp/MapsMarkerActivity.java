@@ -1,8 +1,13 @@
 package org.cocos2dx.cpp;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.cocos2dx.insurance.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -13,7 +18,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsMarkerActivity extends FragmentActivity
-        implements OnMapReadyCallback {
+        implements OnMapReadyCallback, ConnectivityReceiver.ConnectivityReceiverListener{
 
     private GoogleMap mMap;
     private double[] position;
@@ -44,10 +49,41 @@ public class MapsMarkerActivity extends FragmentActivity
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        float zoomLevel = 16.0f;
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(position[0], position[1]);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        boolean isConnected = ConnectivityReceiver.isConnected();
+
+        if(isConnected)
+        {
+            LatLng sydney = new LatLng(position[0], position[1]);
+            mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, zoomLevel));
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(), "No Internet Connected", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public boolean isConnected() {
+        boolean connected = false;
+        try {
+            ConnectivityManager cm = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo nInfo = cm.getActiveNetworkInfo();
+            connected = nInfo != null && nInfo.isAvailable() && nInfo.isConnected();
+            return connected;
+        } catch (Exception e) {
+            Log.e("Connectivity Exception", e.getMessage());
+        }
+        return connected;
+    }
+
+    /**
+     * Callback will be triggered when there is change in
+     * network connection
+     */
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        //showSnack(isConnected);
     }
 }

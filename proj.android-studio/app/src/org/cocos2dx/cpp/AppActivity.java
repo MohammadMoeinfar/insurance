@@ -31,6 +31,7 @@ import org.cocos2dx.lib.Cocos2dxActivity;
 public class AppActivity extends Cocos2dxActivity {
 
     private static Context mContext;
+    private static AppActivity mInstance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +48,16 @@ public class AppActivity extends Cocos2dxActivity {
         // DO OTHER INITIALIZATION BELOW
 
         mContext = AppActivity.this;
+        mInstance = AppActivity.this;
         
+    }
+
+    public static synchronized AppActivity getInstance() {
+        return mInstance;
+    }
+
+    public void setConnectivityListener(ConnectivityReceiver.ConnectivityReceiverListener listener) {
+        ConnectivityReceiver.connectivityReceiverListener = listener;
     }
 
     public static void showMap(double[] _dbl1){
