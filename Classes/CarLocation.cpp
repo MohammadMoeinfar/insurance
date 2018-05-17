@@ -43,6 +43,10 @@ CarLocation *CarLocation::initCarLocation() {
         carLocation->points.push_back(36.23712506649852);
         carLocation->points.push_back(46.266285292804234);
 
+        auto pKeybackListener = EventListenerKeyboard::create();
+        pKeybackListener->onKeyReleased = CC_CALLBACK_2(CarLocation::onKeyReleased, carLocation);
+        carLocation->_eventDispatcher->addEventListenerWithSceneGraphPriority(pKeybackListener, carLocation);
+
         return carLocation;
     }
 
@@ -71,8 +75,8 @@ void CarLocation::mapEvent(Ref *pSender, Widget::TouchEventType type) {
                     lat[i] = points.at(i);
                 }
 
-                jdoubleArray jdoubleArray1 = t.env->NewDoubleArray(2);
-                t.env->SetDoubleArrayRegion(jdoubleArray1, 0, 2, &lat[0]);
+                jdoubleArray jdoubleArray1 = t.env->NewDoubleArray(size);
+                t.env->SetDoubleArrayRegion(jdoubleArray1, 0, size, &lat[0]);
 
                 t.env->CallStaticVoidMethod(t.classID, t.methodID, jdoubleArray1);
                 t.env->DeleteLocalRef(t.classID);
@@ -81,5 +85,13 @@ void CarLocation::mapEvent(Ref *pSender, Widget::TouchEventType type) {
 #endif
         }
             break;
+    }
+}
+
+void CarLocation::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *pEvent) {
+    if (keyCode == EventKeyboard::KeyCode::KEY_ESCAPE)
+    {
+        auto scene = MainMenuScene::createScene();
+        Director::getInstance()->replaceScene(TransitionMoveInL::create(0.3, scene));
     }
 }

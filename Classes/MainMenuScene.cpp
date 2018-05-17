@@ -59,10 +59,14 @@ MainMenuScene *MainMenuScene::initMainMenuScene() {
             buttons->addTouchEventListener(CC_CALLBACK_2(MainMenuScene::buttonEvent, mainMenuScene));
             mainMenuScene->addChild(buttons);
 
-            auto titleButtons = LabelTTF::create(titleButtonArray[i], MAINFONT, 30);
+            auto titleButtons = LabelTTF::create(titleButtonArray[i], MAINFONT, 20);
             titleButtons->setPosition(Vec2(mainMenuScene->visibleSize.width / 2, mainMenuScene->visibleSize.height / 2 - ((buttons->getContentSize().height + 5) * i)));
             mainMenuScene->addChild(titleButtons);
         }
+
+        auto pKeybackListener = EventListenerKeyboard::create();
+        pKeybackListener->onKeyReleased = CC_CALLBACK_2(MainMenuScene::onKeyReleased, mainMenuScene);
+        mainMenuScene->_eventDispatcher->addEventListenerWithSceneGraphPriority(pKeybackListener, mainMenuScene);
 
         return mainMenuScene;
     }
@@ -123,37 +127,50 @@ void MainMenuScene::buttonEvent(Ref *pSender, Widget::TouchEventType type)
                 case DAILY_OPERATION:
                 {
                     auto scene = DailyOperation::createScene();
-                    Director::getInstance()->replaceScene(TransitionMoveInR::create(0.5, scene));
+                    Director::getInstance()->replaceScene(TransitionMoveInR::create(0.3, scene));
                 }
                     break;
                 case PERIODIC_REPORT:
                 {
-
+                    auto scene = PeriodicReport::createScene();
+                    Director::getInstance()->replaceScene(TransitionMoveInR::create(0.3, scene));
                 }
                     break;
                 case INSURANCE_REPORT:
                 {
-
+                    auto scene = InsuranceReport::createScene();
+                    Director::getInstance()->replaceScene(TransitionMoveInR::create(0.3, scene));
                 }
                     break;
                 case CAR_HEALTH_REPORT:
                 {
-
+                    auto scene = CarHealthReport::createScene();
+                    Director::getInstance()->replaceScene(TransitionMoveInR::create(0.3, scene));
                 }
                     break;
                 case CAR_POSITION:
                 {
-
+                    auto scene = CarLocation::createScene();
+                    Director::getInstance()->replaceScene(TransitionMoveInR::create(0.3, scene));
                 }
                     break;
                 case NEAR_DISTANCE_SERVICE_POSITION:
                 {
-
+                    auto scene = NearDistanceServicePosition::createScene();
+                    Director::getInstance()->replaceScene(TransitionMoveInR::create(0.3, scene));
                 }
                     break;
             }
         }
             break;
+    }
+}
+
+void MainMenuScene::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *pEvent) {
+    if (keyCode == EventKeyboard::KeyCode::KEY_ESCAPE)
+    {
+        auto scene = Login::createScene();
+        Director::getInstance()->replaceScene(TransitionMoveInL::create(0.3, scene));
     }
 }
 

@@ -40,6 +40,15 @@ NearDistanceServicePosition *NearDistanceServicePosition::initNearDistanceServic
         showMap->addTouchEventListener(CC_CALLBACK_2(NearDistanceServicePosition::mapEvent, nearDistanceServicePosition));
         nearDistanceServicePosition->addChild(showMap);
 
+        nearDistanceServicePosition->points.push_back(36.23712506649852);
+        nearDistanceServicePosition->points.push_back(46.266285292804234);
+        nearDistanceServicePosition->points.push_back(36.237609668685714);
+        nearDistanceServicePosition->points.push_back(46.27323791384697);
+
+        auto pKeybackListener = EventListenerKeyboard::create();
+        pKeybackListener->onKeyReleased = CC_CALLBACK_2(NearDistanceServicePosition::onKeyReleased, nearDistanceServicePosition);
+        nearDistanceServicePosition->_eventDispatcher->addEventListenerWithSceneGraphPriority(pKeybackListener, nearDistanceServicePosition);
+
         return nearDistanceServicePosition;
     }
 
@@ -54,17 +63,22 @@ void NearDistanceServicePosition::mapEvent(Ref *pSender, Widget::TouchEventType 
         case Widget::TouchEventType::ENDED:
         {
             std::string jFunction = "";
-            jFunction = "showStr";
+            jFunction = "showCalculateDistance";
 #if(CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID )
 
             cocos2d::JniMethodInfo t;
             if (cocos2d::JniHelper::getStaticMethodInfo(t, "org/cocos2dx/cpp/AppActivity", jFunction.c_str(), "([D)V"))
             {
-                double lat [] = {23.32, 43.21};
-                double lot [] = {12.32, 36.21};
+                auto size = points.size();
 
-                jdoubleArray jdoubleArray1 = t.env->NewDoubleArray(2);
-                t.env->SetDoubleArrayRegion(jdoubleArray1, 0, 2, &lat[0]);
+                double lat [size];
+
+                for (int i = 0; i < points.size(); i++) {
+                    lat[i] = points.at(i);
+                }
+
+                jdoubleArray jdoubleArray1 = t.env->NewDoubleArray(size);
+                t.env->SetDoubleArrayRegion(jdoubleArray1, 0, size, &lat[0]);
 
                 t.env->CallStaticVoidMethod(t.classID, t.methodID, jdoubleArray1);
                 t.env->DeleteLocalRef(t.classID);
@@ -73,5 +87,13 @@ void NearDistanceServicePosition::mapEvent(Ref *pSender, Widget::TouchEventType 
 #endif
         }
             break;
+    }
+}
+
+void NearDistanceServicePosition::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *pEvent) {
+    if (keyCode == EventKeyboard::KeyCode::KEY_ESCAPE)
+    {
+        auto scene = MainMenuScene::createScene();
+        Director::getInstance()->replaceScene(TransitionMoveInL::create(0.3, scene));
     }
 }

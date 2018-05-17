@@ -119,9 +119,21 @@ PeriodicReport *PeriodicReport::initPeriodicReport() {
             }
         }
 
+        auto pKeybackListener = EventListenerKeyboard::create();
+        pKeybackListener->onKeyReleased = CC_CALLBACK_2(PeriodicReport::onKeyReleased, periodicReport);
+        periodicReport->_eventDispatcher->addEventListenerWithSceneGraphPriority(pKeybackListener, periodicReport);
+
         return periodicReport;
     }
 
     CC_SAFE_DELETE(periodicReport);
     return nullptr;
+}
+
+void PeriodicReport::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *pEvent) {
+    if (keyCode == EventKeyboard::KeyCode::KEY_ESCAPE)
+    {
+        auto scene = MainMenuScene::createScene();
+        Director::getInstance()->replaceScene(TransitionMoveInL::create(0.3, scene));
+    }
 }

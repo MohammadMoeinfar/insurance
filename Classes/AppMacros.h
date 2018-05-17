@@ -28,6 +28,8 @@ static Vec2 origin = Director::getInstance()->getVisibleOrigin();
 #define NEAR_DISTANCE_SERVICE_POSITION 1006
 
 #define TITLELOGINBUTTON "ورود"
+#define WRONG_USERNAME_PASSWORD "نام کاربری یا پسورد اشتباه است"
+#define NO_INTERNET_CONNECTION "اینترنت برقرار نیست...."
 
 #define TITLE_DAILY_OPERATION "عملکرد روزانه"
 #define TITLE_PERIODIC_REPORT "گزارش دوره ای"

@@ -131,9 +131,21 @@ CarHealthReport *CarHealthReport::initCarHealthReport() {
             padding += (30 * 8 - 50);
         }
 
+        auto pKeybackListener = EventListenerKeyboard::create();
+        pKeybackListener->onKeyReleased = CC_CALLBACK_2(CarHealthReport::onKeyReleased, carHealthReport);
+        carHealthReport->_eventDispatcher->addEventListenerWithSceneGraphPriority(pKeybackListener, carHealthReport);
+
         return carHealthReport;
     }
 
     CC_SAFE_DELETE(carHealthReport);
     return nullptr;
+}
+
+void CarHealthReport::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *pEvent) {
+    if (keyCode == EventKeyboard::KeyCode::KEY_ESCAPE)
+    {
+        auto scene = MainMenuScene::createScene();
+        Director::getInstance()->replaceScene(TransitionMoveInL::create(0.3, scene));
+    }
 }

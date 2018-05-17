@@ -2,6 +2,7 @@ package org.cocos2dx.cpp;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -35,11 +36,12 @@ import java.util.HashMap;
 import java.util.List;
 
 public class CalculateDistance extends FragmentActivity
-        implements OnMapReadyCallback {
+        implements OnMapReadyCallback, ConnectivityReceiver.ConnectivityReceiverListener {
 
     private GoogleMap mMap;
     private static final int LOCATION_REQUEST = 500;
     ArrayList<LatLng> listPoints;
+    private double[] position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,67 +55,49 @@ public class CalculateDistance extends FragmentActivity
         mapFragment.getMapAsync(this);
 
         listPoints = new ArrayList<>();
+
+        Intent intent = getIntent();
+        position = intent.getDoubleArrayExtra("array");
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        mMap.getUiSettings().setZoomControlsEnabled(true);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST);
-            return;
-        }
-        mMap.setMyLocationEnabled(true);
+        float zoomLevel = 16.0f;
 
-        LatLng myLocation = new LatLng(36.23712506649852, 46.266285292804234);
-        //mMap.addMarker(new MarkerOptions().position(myLocation).title("My location"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(myLocation));
+        boolean isConnected = ConnectivityReceiver.isConnected();
 
-        LatLng point1 = new LatLng(36.23712506649852, 46.266285292804234);
-        mMap.addMarker(new MarkerOptions().position(point1).title("My location"));
-
-        LatLng point2 = new LatLng(36.237609668685714, 46.27323791384697);
-        mMap.addMarker(new MarkerOptions().position(point2).title("Target location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
-
-        String url = getRequestUrl(point1, point2 /*point2listPoints.get(0), listPoints.get(1)*/);
-        TaskRequestDirections taskRequestDirections = new TaskRequestDirections();
-        taskRequestDirections.execute(url);
-
-
-        /*mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
-            @Override
-            public void onMapLongClick(LatLng latLng) {
-                if (listPoints.size() == 2)
-                {
-                    listPoints.clear();
-                    mMap.clear();
-                }
-
-                listPoints.add(latLng);
-
-                MarkerOptions markerOptions = new MarkerOptions();
-                markerOptions.position(latLng);
-
-                if(listPoints.size() == 1)
-                {
-                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-                }
-                else
-                {
-                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-                }
-                mMap.addMarker(markerOptions);
-
-                if (listPoints.size() == 2)
-                {
-
-                    String url = getRequestUrl(LatLng(), LatLng()*//*listPoints.get(0), listPoints.get(1)*//*);
-                    TaskRequestDirections taskRequestDirections = new TaskRequestDirections();
-                    taskRequestDirections.execute(url);
-                }
+        if(isConnected && (position.length > 0))
+        {
+            mMap.getUiSettings().setZoomControlsEnabled(true);
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST);
+                return;
             }
-        });*/
+            mMap.setMyLocationEnabled(true);
+
+            LatLng myLocation = new LatLng(position[0], position[1]);
+            //mMap.addMarker(new MarkerOptions().position(myLocation).title("My location"));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation, zoomLevel));
+
+            if(position.length == 4)
+            {
+                LatLng point1 = new LatLng(position[0], position[1]);
+                mMap.addMarker(new MarkerOptions().position(point1).title("My location"));
+
+                LatLng point2 = new LatLng(position[2], position[3]);
+                mMap.addMarker(new MarkerOptions().position(point2).title("Target location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+
+                String url = getRequestUrl(point1, point2);
+                TaskRequestDirections taskRequestDirections = new TaskRequestDirections();
+                taskRequestDirections.execute(url);
+            }
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
+        }
 
     }
 
@@ -177,6 +161,11 @@ public class CalculateDistance extends FragmentActivity
                 }
                 break;
         }
+    }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+
     }
 
     public class TaskRequestDirections extends AsyncTask<String, Void, String> {

@@ -9,6 +9,12 @@
 #include "AppMacros.h"
 #include "ui/CocosGUI.h"
 #include "DailyOperation.h"
+#include "PeriodicReport.h"
+#include "InsuranceReport.h"
+#include "CarHealthReport.h"
+#include "CarLocation.h"
+#include "NearDistanceServicePosition.h"
+#include "Login.h"
 
 using namespace cocos2d::ui;
 
@@ -23,6 +29,7 @@ public:
 
     void textFieldEvent(Ref *pSender, TextField::EventType type);
     void buttonEvent(Ref* pSender, Widget::TouchEventType type);
+    void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *pEvent);
     void readData();
 
     Size visibleSize;

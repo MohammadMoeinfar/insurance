@@ -119,9 +119,21 @@ DailyOperation *DailyOperation::initDailyOperation() {
             }
         }
 
+        auto pKeybackListener = EventListenerKeyboard::create();
+        pKeybackListener->onKeyReleased = CC_CALLBACK_2(DailyOperation::onKeyReleased, dailyOperation);
+        dailyOperation->_eventDispatcher->addEventListenerWithSceneGraphPriority(pKeybackListener, dailyOperation);
+
         return dailyOperation;
     }
 
     CC_SAFE_DELETE(dailyOperation);
     return nullptr;
+}
+
+void DailyOperation::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *pEvent) {
+    if (keyCode == EventKeyboard::KeyCode::KEY_ESCAPE)
+    {
+        auto scene = MainMenuScene::createScene();
+        Director::getInstance()->replaceScene(TransitionMoveInL::create(0.3, scene));
+    }
 }

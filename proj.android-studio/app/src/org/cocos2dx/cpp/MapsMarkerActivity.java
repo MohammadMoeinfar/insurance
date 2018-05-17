@@ -53,7 +53,7 @@ public class MapsMarkerActivity extends FragmentActivity
 
         boolean isConnected = ConnectivityReceiver.isConnected();
 
-        if(isConnected)
+        if(isConnected && (position.length > 0))
         {
             LatLng sydney = new LatLng(position[0], position[1]);
             mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
@@ -61,7 +61,7 @@ public class MapsMarkerActivity extends FragmentActivity
         }
         else
         {
-            Toast.makeText(getApplicationContext(), "No Internet Connected", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
         }
     }
 

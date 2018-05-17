@@ -149,9 +149,21 @@ InsuranceReport *InsuranceReport::initInsuranceReport() {
             padding += (30 * 8 - 50);
         }
 
+        auto pKeybackListener = EventListenerKeyboard::create();
+        pKeybackListener->onKeyReleased = CC_CALLBACK_2(InsuranceReport::onKeyReleased, insuranceReport);
+        insuranceReport->_eventDispatcher->addEventListenerWithSceneGraphPriority(pKeybackListener, insuranceReport);
+
         return insuranceReport;
     }
 
     CC_SAFE_DELETE(insuranceReport);
     return nullptr;
+}
+
+void InsuranceReport::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *pEvent) {
+    if (keyCode == EventKeyboard::KeyCode::KEY_ESCAPE)
+    {
+        auto scene = MainMenuScene::createScene();
+        Director::getInstance()->replaceScene(TransitionMoveInL::create(0.3, scene));
+    }
 }

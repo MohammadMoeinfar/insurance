@@ -23,9 +23,12 @@ public:
 
     void textFieldEvent(Ref *pSender, TextField::EventType type);
     void buttonEvent(Ref* pSender, Widget::TouchEventType type);
+    void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *pEvent);
 
     Size visibleSize;
     Vec2 origin;
+    TextField* textFieldPassword;
+    TextField* textFieldUsername;
 
     CREATE_FUNC(Login);
 
