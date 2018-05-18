@@ -71,8 +71,8 @@ InsuranceReport *InsuranceReport::initInsuranceReport() {
 
             for(int j = 0; j < temp.size(); j++)
             {
-                auto titles = LabelTTF::create(temp.at(j), MAINFONT, 30);
-                titles->setPosition(Vec2(mainTitle->getPositionX(), mainTitle->getPositionY() - 100 - padding - (titles->getContentSize().height / 1.5 * j)));
+                auto titles = LabelTTF::create(temp.at(j), MAINFONT, 20);
+                titles->setPosition(Vec2(mainTitle->getPositionX(), mainTitle->getPositionY() - 100 - padding - (titles->getContentSize().height * j)));
                 titles->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
                 titles->setColor(Color3B::BLACK);
                 insuranceReport->addChild(titles);
@@ -80,7 +80,7 @@ InsuranceReport *InsuranceReport::initInsuranceReport() {
                 auto backField = ImageView::create("backField.png");
                 backField->setContentSize(Size(200, 25));
                 backField->setScale9Enabled(true);
-                backField->setPosition(Vec2(backField->getContentSize().width - 80, mainTitle->getPositionY() - 100 - padding - (titles->getContentSize().height / 1.5 * j)));
+                backField->setPosition(Vec2(backField->getContentSize().width - 80, mainTitle->getPositionY() - 100 - padding - (titles->getContentSize().height * j)));
                 insuranceReport->addChild(backField);
 
                 auto values = LabelTTF::create();

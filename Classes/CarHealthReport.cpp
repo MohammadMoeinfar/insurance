@@ -65,16 +65,16 @@ CarHealthReport *CarHealthReport::initCarHealthReport() {
 
             for(int j = 0; j < temp.size(); j++)
             {
-                auto titles = LabelTTF::create(temp.at(j), MAINFONT, 25);
-                titles->setPosition(Vec2(mainTitle->getPositionX(), mainTitle->getPositionY() - 100 - padding - (titles->getContentSize().height / 1.5 * j)));
+                auto titles = LabelTTF::create(temp.at(j), MAINFONT, 20);
+                titles->setPosition(Vec2(mainTitle->getPositionX(), mainTitle->getPositionY() - 100 - padding - ((titles->getContentSize().height + 20) * j)));
                 titles->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
                 titles->setColor(Color3B::BLACK);
                 carHealthReport->addChild(titles);
 
                 auto backField = ImageView::create("backField.png");
-                backField->setContentSize(Size(200, 25));
+                backField->setContentSize(Size(200, 30));
                 backField->setScale9Enabled(true);
-                backField->setPosition(Vec2(backField->getContentSize().width - 80, mainTitle->getPositionY() - 100 - padding - (titles->getContentSize().height / 1.5 * j)));
+                backField->setPosition(Vec2(backField->getContentSize().width - 80, mainTitle->getPositionY() - 100 - padding - ((titles->getContentSize().height + 20) * j)));
                 carHealthReport->addChild(backField);
 
                 auto values = LabelTTF::create();

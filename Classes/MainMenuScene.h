@@ -34,6 +34,7 @@ public:
 
     Size visibleSize;
     Vec2 origin;
+    std::vector<SpecificationOptions> listOptions;
 
     CREATE_FUNC(MainMenuScene);
 

@@ -58,8 +58,8 @@ PeriodicReport *PeriodicReport::initPeriodicReport() {
 
         for(int i = 0; i < 7; i++)
         {
-            auto titles = LabelTTF::create(textArray[i], MAINFONT, 30);
-            titles->setPosition(Vec2(mainTitle->getPositionX(), mainTitle->getPositionY() - 150 - (titles->getContentSize().height * i)));
+            auto titles = LabelTTF::create(textArray[i], MAINFONT, 25);
+            titles->setPosition(Vec2(mainTitle->getPositionX(), mainTitle->getPositionY() - 150 - ((titles->getContentSize().height + 20) * i)));
             titles->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
             titles->setColor(Color3B::BLACK);
             periodicReport->addChild(titles);
@@ -67,14 +67,14 @@ PeriodicReport *PeriodicReport::initPeriodicReport() {
             auto backField = ImageView::create("backField.png");
             backField->setContentSize(Size(200, 35));
             backField->setScale9Enabled(true);
-            backField->setPosition(Vec2(backField->getContentSize().width - 80, mainTitle->getPositionY() - 150 - (titles->getContentSize().height * i)));
+            backField->setPosition(Vec2(backField->getContentSize().width - 80, mainTitle->getPositionY() - 150 - ((titles->getContentSize().height + 20) * i)));
             periodicReport->addChild(backField);
 
             auto values = LabelTTF::create();
             values->setPosition(Vec2(backField->getPositionX(), backField->getPositionY()));
             values->setColor(Color3B::BLACK);
             values->setFontName(MAINFONT);
-            values->setFontSize(30);
+            values->setFontSize(25);
             periodicReport->addChild(values);
 
             switch (i)

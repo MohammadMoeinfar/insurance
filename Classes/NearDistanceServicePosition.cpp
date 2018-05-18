@@ -33,10 +33,9 @@ NearDistanceServicePosition *NearDistanceServicePosition::initNearDistanceServic
         auto layerColor = LayerColor::create(Color4B(245, 247, 249, 255));
         nearDistanceServicePosition->addChild(layerColor);
 
-        auto showMap = Button::create("button.png", "button.png");
-        showMap->setPosition(Vec2(nearDistanceServicePosition->visibleSize.width / 2 + nearDistanceServicePosition->origin.x, nearDistanceServicePosition->visibleSize.height / 2 + nearDistanceServicePosition->origin.y));
-        showMap->setTitleText("SHOW MAP");
-        showMap->setTitleFontSize(10);
+        auto showMap = Button::create("btn2.png", "btn2.png");
+        showMap->setPosition(Vec2(nearDistanceServicePosition->visibleSize.width / 2 + nearDistanceServicePosition->origin.x, showMap->getContentSize().height + 100 + nearDistanceServicePosition->origin.y));
+        showMap->setPressedActionEnabled(true);
         showMap->addTouchEventListener(CC_CALLBACK_2(NearDistanceServicePosition::mapEvent, nearDistanceServicePosition));
         nearDistanceServicePosition->addChild(showMap);
 

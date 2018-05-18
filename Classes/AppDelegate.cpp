@@ -7,7 +7,8 @@
 //#include "CarHealthReport.h"
 //#include "CarLocation.h"
 //#include "NearDistanceServicePosition.h"
-#include "Login.h"
+//#include "Login.h"
+#include "MainMenuScene.h"
 
 // #define USE_AUDIO_ENGINE 1
 // #define USE_SIMPLE_AUDIO_ENGINE 1
@@ -99,7 +100,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
     //auto scene = InsuranceReport::createScene();
     //auto scene = CarHealthReport::createScene();
     //auto scene = NearDistanceServicePosition::createScene();
-    auto scene = Login::createScene();
+    //auto scene = Login::createScene();
+    auto scene = MainMenuScene::createScene();
 
     // run
     director->runWithScene(scene);

@@ -33,7 +33,46 @@ MainMenuScene *MainMenuScene::initMainMenuScene() {
         auto layerColor = LayerColor::create(Color4B(79, 107, 172, 255));
         mainMenuScene->addChild(layerColor);
 
-        auto logo = Sprite::create("logo.png");
+        auto column = Sprite::create("column.png");
+        column->setPosition(Vec2(mainMenuScene->visibleSize.width / 2 + mainMenuScene->origin.x,
+                                 mainMenuScene->visibleSize.height / 2 + mainMenuScene->origin.y));
+        mainMenuScene->addChild(column, 50);
+
+        SpecificationOptions specificationOptions;
+
+        for (int i = 0; i < 6; i++)
+        {
+            auto options = Button::create("option" + StringUtils::format("%i", i + 1) + ".png", "option" + StringUtils::format("%i", i + 1) + ".png");
+            options->setPosition(Vec2(mainMenuScene->visibleSize.width / 2 +  + mainMenuScene->origin.x,
+                                   mainMenuScene->visibleSize.height - (((options->getContentSize().height + 25) * i) + 140) + mainMenuScene->origin.y));
+            options->setTag(1001 + i);
+            options->addTouchEventListener(CC_CALLBACK_2(MainMenuScene::buttonEvent, mainMenuScene));
+            mainMenuScene->addChild(options, 3);
+
+            auto line = Sprite::create("line.png");
+            line->setPosition(Vec2(options->getPositionX() + 10, options->getPositionY()));
+            mainMenuScene->addChild(line, 20);
+
+            specificationOptions.option = options;
+            specificationOptions.line = line;
+            specificationOptions.isPressed = false;
+
+            mainMenuScene->listOptions.push_back(specificationOptions);
+
+        }
+
+
+
+        /*auto buttons = Button::create("option.png", "option.png");
+        buttons->setPosition(Vec2(mainMenuScene->visibleSize.width / 2, mainMenuScene->visibleSize.height / 2 - ((buttons->getContentSize().height + 5) * 0)));
+        //buttons->setTitleText(titleButtons[i]);
+        //buttons->setTitleFontSize(20);
+        buttons->setTag(1001 + 0);
+        buttons->setPressedActionEnabled(true);
+        buttons->addTouchEventListener(CC_CALLBACK_2(MainMenuScene::buttonEvent, mainMenuScene));
+        mainMenuScene->addChild(buttons);*/
+
+        /*auto logo = Sprite::create("logo.png");
         logo->setPosition(Vec2(mainMenuScene->visibleSize.width / 2 + mainMenuScene->origin.x, mainMenuScene->visibleSize.height - logo->getContentSize().height - 15 + mainMenuScene->origin.y));
         mainMenuScene->addChild(logo);
 
@@ -62,7 +101,7 @@ MainMenuScene *MainMenuScene::initMainMenuScene() {
             auto titleButtons = LabelTTF::create(titleButtonArray[i], MAINFONT, 20);
             titleButtons->setPosition(Vec2(mainMenuScene->visibleSize.width / 2, mainMenuScene->visibleSize.height / 2 - ((buttons->getContentSize().height + 5) * i)));
             mainMenuScene->addChild(titleButtons);
-        }
+        }*/
 
         auto pKeybackListener = EventListenerKeyboard::create();
         pKeybackListener->onKeyReleased = CC_CALLBACK_2(MainMenuScene::onKeyReleased, mainMenuScene);
@@ -118,7 +157,23 @@ void MainMenuScene::buttonEvent(Ref *pSender, Widget::TouchEventType type)
 {
     Button* sender = (Button*) pSender;
 
-    switch (type)
+    for (auto obj : listOptions)
+    {
+        if((obj.option->getTag() == sender->getTag()))
+        {
+            if(!obj.isPressed)
+            {
+                //sender->runAction(MoveTo::create(2.0, Vec2(sender->getPositionX() + 60, sender->getPositionY())));
+                obj.isPressed = true;
+            }
+        }
+        else
+        {
+            //obj.isPressed = false;
+        }
+    }
+
+    /*switch (type)
     {
         case Widget::TouchEventType::ENDED:
         {
@@ -163,7 +218,7 @@ void MainMenuScene::buttonEvent(Ref *pSender, Widget::TouchEventType type)
             }
         }
             break;
-    }
+    }*/
 }
 
 void MainMenuScene::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *pEvent) {
@@ -176,7 +231,7 @@ void MainMenuScene::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos
 
 void MainMenuScene::readData() {
 
-    long filesize = 0;
+    /*long filesize = 0;
     string content;
     string fullPath = "MockData.json";
 
@@ -196,7 +251,7 @@ void MainMenuScene::readData() {
             }
         }
 
-    int x=0;
+    int x=0;*/
 
 }
 

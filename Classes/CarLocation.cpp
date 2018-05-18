@@ -33,10 +33,9 @@ CarLocation *CarLocation::initCarLocation() {
         auto layerColor = LayerColor::create(Color4B(245, 247, 249, 255));
         carLocation->addChild(layerColor);
 
-        auto showMap = Button::create("button.png", "button.png");
-        showMap->setPosition(Vec2(carLocation->visibleSize.width / 2 + carLocation->origin.x, carLocation->visibleSize.height / 2 + carLocation->origin.y));
-        showMap->setTitleText("SHOW MAP");
-        showMap->setTitleFontSize(10);
+        auto showMap = Button::create("btn1.png", "btn.png");
+        showMap->setPosition(Vec2(carLocation->visibleSize.width / 2 + carLocation->origin.x, showMap->getContentSize().height + 100 + carLocation->origin.y));
+        showMap->setPressedActionEnabled(true);
         showMap->addTouchEventListener(CC_CALLBACK_2(CarLocation::mapEvent, carLocation));
         carLocation->addChild(showMap);
 

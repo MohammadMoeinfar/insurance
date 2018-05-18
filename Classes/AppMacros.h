@@ -6,12 +6,14 @@
 #define APPMACROS_H
 
 #include "cocos2d.h"
+#include "ui/CocosGUI.h"
 #include <fstream>
 #include "external/json/document.h"
 #include "external/json/writer.h"
 #include "external/json/stringbuffer.h"
 
 USING_NS_CC;
+using namespace cocos2d::ui;
 using namespace std;
 using namespace rapidjson;
 
@@ -63,6 +65,13 @@ static Vec2 origin = Director::getInstance()->getVisibleOrigin();
 #define ENGINE "موتور"
 #define ABS_BRAKES "ABS"
 #define BSI "BSI"
+
+struct SpecificationOptions
+{
+    Button *option;
+    Sprite *line;
+    bool  isPressed;
+};
 
 struct ValueDailyOperation
 {

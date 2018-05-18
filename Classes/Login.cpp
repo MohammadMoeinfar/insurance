@@ -45,11 +45,12 @@ Login *Login::initLogin() {
         backusername->setPosition(Vec2(login->visibleSize.width / 2 + login->origin.x, login->visibleSize.height / 2 + login->origin.y));
         login->addChild(backusername);
 
-        login->textFieldUsername = TextField::create("User Name",MAINFONT,20);
+        login->textFieldUsername = TextField::create("User Name",MAINFONT,35);
         login->textFieldUsername->ignoreContentAdaptWithSize(false);
         ((Label*)(login->textFieldUsername->getVirtualRenderer()))->setLineBreakWithoutSpace(true);
         login->textFieldUsername->setContentSize(Size(267, 40));
         login->textFieldUsername->setPlaceHolder("Username");
+        login->textFieldUsername->setString("admin");
         login->textFieldUsername->setTextColor(Color4B::BLACK);
         login->textFieldUsername->setTextHorizontalAlignment(TextHAlignment::CENTER);
         login->textFieldUsername->setTextVerticalAlignment(TextVAlignment::CENTER);
@@ -61,11 +62,12 @@ Login *Login::initLogin() {
         backpassword->setPosition(Vec2(backusername->getPositionX(), backusername->getPositionY() - backusername->getContentSize().height));
         login->addChild(backpassword);
 
-        login->textFieldPassword = TextField::create("Password",MAINFONT,20);
+        login->textFieldPassword = TextField::create("Password",MAINFONT,35);
         login->textFieldPassword->ignoreContentAdaptWithSize(false);
         ((Label*)(login->textFieldPassword->getVirtualRenderer()))->setLineBreakWithoutSpace(true);
         login->textFieldPassword->setContentSize(Size(267, 40));
         login->textFieldPassword->setPlaceHolder("*******");
+        login->textFieldPassword->setString("admin");
         login->textFieldPassword->setTextColor(Color4B::BLACK);
         login->textFieldPassword->setPasswordEnabled(true);
         login->textFieldPassword->setPasswordStyleText("*");
@@ -81,7 +83,7 @@ Login *Login::initLogin() {
         loginButton->addTouchEventListener(CC_CALLBACK_2(Login::buttonEvent, login));
         login->addChild(loginButton);
 
-        auto titleLoginButton = LabelTTF::create(TITLELOGINBUTTON, MAINFONT, 30);
+        auto titleLoginButton = LabelTTF::create(TITLELOGINBUTTON, MAINFONT, 25);
         titleLoginButton->setPosition(Vec2(backpassword->getPositionX(), backpassword->getPositionY() - 85));
         login->addChild(titleLoginButton);
 
