@@ -70,6 +70,7 @@ struct SpecificationOptions
 {
     Button *option;
     Sprite *line;
+    string side;
     bool  isPressed;
 };
 

@@ -38,10 +38,10 @@ MainMenuScene *MainMenuScene::initMainMenuScene() {
                                  mainMenuScene->visibleSize.height / 2 + mainMenuScene->origin.y));
         mainMenuScene->addChild(column, 50);
 
-        SpecificationOptions specificationOptions;
-
         for (int i = 0; i < 6; i++)
         {
+            SpecificationOptions specificationOptions;
+
             auto options = Button::create("option" + StringUtils::format("%i", i + 1) + ".png", "option" + StringUtils::format("%i", i + 1) + ".png");
             options->setPosition(Vec2(mainMenuScene->visibleSize.width / 2 +  + mainMenuScene->origin.x,
                                    mainMenuScene->visibleSize.height - (((options->getContentSize().height + 25) * i) + 140) + mainMenuScene->origin.y));
@@ -56,6 +56,11 @@ MainMenuScene *MainMenuScene::initMainMenuScene() {
             specificationOptions.option = options;
             specificationOptions.line = line;
             specificationOptions.isPressed = false;
+            if((1001 + i) % 2 == 0)
+                specificationOptions.side = "right";
+            else
+                specificationOptions.side = "left";
+
 
             mainMenuScene->listOptions.push_back(specificationOptions);
 
@@ -157,27 +162,59 @@ void MainMenuScene::buttonEvent(Ref *pSender, Widget::TouchEventType type)
 {
     Button* sender = (Button*) pSender;
 
-    for (auto obj : listOptions)
-    {
-        if((obj.option->getTag() == sender->getTag()))
-        {
-            if(!obj.isPressed)
-            {
-                //sender->runAction(MoveTo::create(2.0, Vec2(sender->getPositionX() + 60, sender->getPositionY())));
-                obj.isPressed = true;
-            }
-        }
-        else
-        {
-            //obj.isPressed = false;
-        }
-    }
-
-    /*switch (type)
+    switch (type)
     {
         case Widget::TouchEventType::ENDED:
         {
-            switch (sender->getTag())
+
+            for (int i = 0; i < listOptions.size(); i++)
+            {
+                if((listOptions.at(i).option->getTag() == sender->getTag()))
+                {
+                    if(!listOptions.at(i).isPressed)
+                    {
+                        if(listOptions.at(i).side == "left")
+                            sender->runAction(Sequence::create(
+                                    ScaleTo::create(0.05, 1.1),
+                                    ScaleTo::create(0.05, 1.0),
+                                    ScaleTo::create(0.05, 1.1),
+                                    ScaleTo::create(0.05, 1.0),
+                                    MoveTo::create(0.1, Vec2(sender->getPositionX() + 180, sender->getPositionY())), nullptr));
+                        else
+                            sender->runAction(Sequence::create(
+                                    ScaleTo::create(0.05, 1.1),
+                                    ScaleTo::create(0.05, 1.0),
+                                    ScaleTo::create(0.05, 1.1),
+                                    ScaleTo::create(0.05, 1.0),
+                                    MoveTo::create(0.1, Vec2(sender->getPositionX() - 180, sender->getPositionY())), nullptr));
+
+                        listOptions.at(i).isPressed = true;
+                        break;
+                    }
+                    else
+                    {
+                        if(listOptions.at(i).side == "left")
+                            sender->runAction(Sequence::create(
+                                    ScaleTo::create(0.05, 1.1),
+                                    ScaleTo::create(0.05, 1.0),
+                                    ScaleTo::create(0.05, 1.1),
+                                    ScaleTo::create(0.05, 1.0),
+                                    MoveTo::create(0.1, Vec2(sender->getPositionX() - 180, sender->getPositionY())), nullptr));
+                        else
+                            sender->runAction(Sequence::create(
+                                    ScaleTo::create(0.05, 1.1),
+                                    ScaleTo::create(0.05, 1.0),
+                                    ScaleTo::create(0.05, 1.1),
+                                    ScaleTo::create(0.05, 1.0),
+                                    MoveTo::create(0.1, Vec2(sender->getPositionX() + 180, sender->getPositionY())), nullptr));
+
+                        listOptions.at(i).isPressed = false;
+                        break;
+                    }
+                }
+            }
+
+            /*switch (sender->getTag())
             {
                 case DAILY_OPERATION:
                 {
@@ -215,10 +252,10 @@ void MainMenuScene::buttonEvent(Ref *pSender, Widget::TouchEventType type)
                     Director::getInstance()->replaceScene(TransitionMoveInR::create(0.3, scene));
                 }
                     break;
-            }
+            }*/
         }
             break;
-    }*/
+    }
 }
 
 void MainMenuScene::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *pEvent) {
