@@ -21,9 +21,11 @@ public:
     static Scene* createScene();
     static DailyOperation* initDailyOperation();
     void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *pEvent);
+    void update(float dt);
 
     Size visibleSize;
     Vec2 origin;
+    Sprite* backScore;
 
     CREATE_FUNC(DailyOperation);
 

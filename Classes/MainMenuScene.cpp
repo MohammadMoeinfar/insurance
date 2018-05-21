@@ -36,7 +36,7 @@ MainMenuScene *MainMenuScene::initMainMenuScene() {
         auto column = Sprite::create("column.png");
         column->setPosition(Vec2(mainMenuScene->visibleSize.width / 2 + mainMenuScene->origin.x,
                                  mainMenuScene->visibleSize.height / 2 + mainMenuScene->origin.y));
-        mainMenuScene->addChild(column, 50);
+        mainMenuScene->addChild(column, 3);
 
         for (int i = 0; i < 6; i++)
         {
@@ -47,19 +47,33 @@ MainMenuScene *MainMenuScene::initMainMenuScene() {
                                    mainMenuScene->visibleSize.height - (((options->getContentSize().height + 25) * i) + 140) + mainMenuScene->origin.y));
             options->setTag(1001 + i);
             options->addTouchEventListener(CC_CALLBACK_2(MainMenuScene::buttonEvent, mainMenuScene));
-            mainMenuScene->addChild(options, 3);
+            mainMenuScene->addChild(options, 4);
 
             auto line = Sprite::create("line.png");
-            line->setPosition(Vec2(options->getPositionX() + 10, options->getPositionY()));
-            mainMenuScene->addChild(line, 20);
+            line->setPosition(Vec2(options->getPositionX(), options->getPositionY()));
+            mainMenuScene->addChild(line, 2);
+
+            auto title = Sprite::create("toption" + StringUtils::format("%i", i + 1) + ".png");
+            title->setOpacity(0);
+            mainMenuScene->addChild(title, 2);
 
             specificationOptions.option = options;
             specificationOptions.line = line;
             specificationOptions.isPressed = false;
+            specificationOptions.mainPosition = options->getPosition();
+            specificationOptions.title = title;
             if((1001 + i) % 2 == 0)
+            {
                 specificationOptions.side = "right";
+                line->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
+                title->setPosition(Vec2(options->getPositionX() - 85, options->getPositionY()));
+            }
             else
+            {
                 specificationOptions.side = "left";
+                line->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
+                title->setPosition(Vec2(options->getPositionX() + 85, options->getPositionY()));
+            }
 
 
             mainMenuScene->listOptions.push_back(specificationOptions);
@@ -152,9 +166,6 @@ void MainMenuScene::textFieldEvent(Ref *pSender, TextField::EventType type)
         case TextField::EventType::DELETE_BACKWARD:
             //_displayValueLabel->setString(StringUtils::format("delete word"));
             break;
-
-        default:
-            break;
     }
 }
 
@@ -164,6 +175,56 @@ void MainMenuScene::buttonEvent(Ref *pSender, Widget::TouchEventType type)
 
     switch (type)
     {
+        case Widget::TouchEventType ::BEGAN:
+        {
+            for (int i = 0; i < listOptions.size(); i++)
+            {
+                if((listOptions.at(i).option->getTag() == sender->getTag()) && listOptions.at(i).isPressed)
+                {
+                    switch (sender->getTag())
+                    {
+                        case DAILY_OPERATION:
+                        {
+                            auto scene = DailyOperation::createScene();
+                            Director::getInstance()->replaceScene(TransitionMoveInR::create(0.3, scene));
+                        }
+                            break;
+                        case PERIODIC_REPORT:
+                        {
+                            auto scene = PeriodicReport::createScene();
+                            Director::getInstance()->replaceScene(TransitionMoveInR::create(0.3, scene));
+                        }
+                            break;
+                        case INSURANCE_REPORT:
+                        {
+                            auto scene = InsuranceReport::createScene();
+                            Director::getInstance()->replaceScene(TransitionMoveInR::create(0.3, scene));
+                        }
+                            break;
+                        case CAR_HEALTH_REPORT:
+                        {
+                            auto scene = CarHealthReport::createScene();
+                            Director::getInstance()->replaceScene(TransitionMoveInR::create(0.3, scene));
+                        }
+                            break;
+                        case CAR_POSITION:
+                        {
+                            auto scene = CarLocation::createScene();
+                            Director::getInstance()->replaceScene(TransitionMoveInR::create(0.3, scene));
+                        }
+                            break;
+                        case NEAR_DISTANCE_SERVICE_POSITION:
+                        {
+                            auto scene = NearDistanceServicePosition::createScene();
+                            Director::getInstance()->replaceScene(TransitionMoveInR::create(0.3, scene));
+                        }
+                            break;
+                        default:break;
+                    }
+                }
+            }
+        }
+            break;
         case Widget::TouchEventType::ENDED:
         {
 
@@ -174,43 +235,53 @@ void MainMenuScene::buttonEvent(Ref *pSender, Widget::TouchEventType type)
                     if(!listOptions.at(i).isPressed)
                     {
                         if(listOptions.at(i).side == "left")
+                        {
                             sender->runAction(Sequence::create(
                                     ScaleTo::create(0.05, 1.1),
                                     ScaleTo::create(0.05, 1.0),
                                     ScaleTo::create(0.05, 1.1),
                                     ScaleTo::create(0.05, 1.0),
                                     MoveTo::create(0.1, Vec2(sender->getPositionX() + 180, sender->getPositionY())), nullptr));
+
+                            listOptions.at(i).line->runAction(
+                                    Sequence::create(DelayTime::create(0.2),
+                                            ScaleTo::create(0.07, listOptions.at(i).line->getScaleX() + 10, listOptions.at(i).line->getScaleY()), nullptr));
+
+                            listOptions.at(i).title->runAction(
+                                    Sequence::create(DelayTime::create(0.2),
+                                                     FadeTo::create(0.1, 255), nullptr));
+                        }
                         else
+                        {
                             sender->runAction(Sequence::create(
                                     ScaleTo::create(0.05, 1.1),
                                     ScaleTo::create(0.05, 1.0),
                                     ScaleTo::create(0.05, 1.1),
                                     ScaleTo::create(0.05, 1.0),
                                     MoveTo::create(0.1, Vec2(sender->getPositionX() - 180, sender->getPositionY())), nullptr));
+
+                            listOptions.at(i).line->runAction(
+                                    Sequence::create(DelayTime::create(0.2),
+                                                     ScaleTo::create(0.07, listOptions.at(i).line->getScaleX() + 10, listOptions.at(i).line->getScaleY()), nullptr));
+
+                            listOptions.at(i).title->runAction(
+                                    Sequence::create(DelayTime::create(0.2),
+                                                     FadeTo::create(0.1, 255), nullptr));
+                        }
 
                         listOptions.at(i).isPressed = true;
-                        break;
                     }
-                    else
-                    {
-                        if(listOptions.at(i).side == "left")
-                            sender->runAction(Sequence::create(
-                                    ScaleTo::create(0.05, 1.1),
-                                    ScaleTo::create(0.05, 1.0),
-                                    ScaleTo::create(0.05, 1.1),
-                                    ScaleTo::create(0.05, 1.0),
-                                    MoveTo::create(0.1, Vec2(sender->getPositionX() - 180, sender->getPositionY())), nullptr));
-                        else
-                            sender->runAction(Sequence::create(
-                                    ScaleTo::create(0.05, 1.1),
-                                    ScaleTo::create(0.05, 1.0),
-                                    ScaleTo::create(0.05, 1.1),
-                                    ScaleTo::create(0.05, 1.0),
-                                    MoveTo::create(0.1, Vec2(sender->getPositionX() + 180, sender->getPositionY())), nullptr));
+                }
+                else
+                {
+                    listOptions.at(i).option->runAction(MoveTo::create(0.1, listOptions.at(i).mainPosition));
 
-                        listOptions.at(i).isPressed = false;
-                        break;
-                    }
+                    listOptions.at(i).line->runAction(
+                            ScaleTo::create(0.1, 0, listOptions.at(i).line->getScaleY()));
+
+                    listOptions.at(i).title->runAction(FadeTo::create(0.1, 0));
+
+                    listOptions.at(i).isPressed = false;
                 }
             }
 
@@ -255,6 +326,8 @@ void MainMenuScene::buttonEvent(Ref *pSender, Widget::TouchEventType type)
             }*/
         }
             break;
+        case Widget::TouchEventType::MOVED:break;
+        case Widget::TouchEventType::CANCELED:break;
     }
 }
 

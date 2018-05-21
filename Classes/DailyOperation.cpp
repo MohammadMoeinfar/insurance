@@ -30,7 +30,9 @@ DailyOperation *DailyOperation::initDailyOperation() {
         dailyOperation->visibleSize = Director::getInstance()->getVisibleSize();
         dailyOperation->origin = Director::getInstance()->getVisibleOrigin();
 
-        auto layerColor = LayerColor::create(Color4B(245, 247, 249, 255));
+        //dailyOperation->scheduleUpdate();
+
+        auto layerColor = LayerGradient::create(Color4B(29, 34, 74, 255), Color4B(45, 150, 214, 255));
         dailyOperation->addChild(layerColor);
 
         auto mainTitle = LabelTTF::create(TITLE_DAILY_OPERATION, MAINFONT, 30);
@@ -38,6 +40,34 @@ DailyOperation *DailyOperation::initDailyOperation() {
         mainTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
         mainTitle->setColor(Color3B::BLACK);
         dailyOperation->addChild(mainTitle);
+
+        dailyOperation->backScore = Sprite::create("backScore.png");
+        dailyOperation->backScore->setPosition(Vec2(dailyOperation->visibleSize.width / 2 + dailyOperation->origin.x,
+                                    dailyOperation->visibleSize.height - dailyOperation->backScore->getContentSize().height / 2 - 80));
+
+        dailyOperation->backScore->runAction(RepeatForever::create(Sequence::create(RotateTo::create(0.5, 10),
+                                                                                    RotateTo::create(0.5, -10),
+                                                                                    nullptr)));
+
+        dailyOperation->addChild(dailyOperation->backScore);
+
+        auto myScore = Sprite::create();
+        myScore->setTexture("score.png");
+
+        auto score = ProgressTimer::create(myScore);
+        score->setPosition(dailyOperation->backScore->getPosition());
+        score->setType(ProgressTimer::Type::RADIAL);
+        score->setPercentage(9.7);
+        dailyOperation->addChild(score);
+
+        auto scoreCount = LabelTTF::create("9.7", MAINFONT, 50);
+        scoreCount->setPosition(dailyOperation->backScore->getPosition());
+        dailyOperation->addChild(scoreCount);
+
+        auto scoreTitle = LabelTTF::create(SCORE, MAINFONT, 30);
+        scoreTitle->setPosition(Vec2(dailyOperation->backScore->getPositionX(),
+                                     dailyOperation->backScore->getPositionY() - dailyOperation->backScore->getContentSize().height / 2 - 30));
+        dailyOperation->addChild(scoreTitle);
 
         string textArray [] = {MILEAGE,
                                MILEAGE_UNIT,
@@ -56,7 +86,7 @@ DailyOperation *DailyOperation::initDailyOperation() {
         initValueDailyOperation.harshDrive = 0.01;
         initValueDailyOperation.unsafeFieldDrive = 0.05;
 
-        for(int i = 0; i < 7; i++)
+        /*for(int i = 0; i < 7; i++)
         {
             auto titles = LabelTTF::create(textArray[i], MAINFONT, 25);
             titles->setPosition(Vec2(mainTitle->getPositionX(), mainTitle->getPositionY() - 150 - ((titles->getContentSize().height + 20) * i)));
@@ -117,7 +147,7 @@ DailyOperation *DailyOperation::initDailyOperation() {
                 default:
                     break;
             }
-        }
+        }*/
 
         auto pKeybackListener = EventListenerKeyboard::create();
         pKeybackListener->onKeyReleased = CC_CALLBACK_2(DailyOperation::onKeyReleased, dailyOperation);
@@ -136,4 +166,9 @@ void DailyOperation::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, coco
         auto scene = MainMenuScene::createScene();
         Director::getInstance()->replaceScene(TransitionMoveInL::create(0.3, scene));
     }
+}
+
+void DailyOperation::update(float dt)
+{
+    backScore->runAction(RepeatForever::create(RotateTo::create(0.5, 10)));
 }

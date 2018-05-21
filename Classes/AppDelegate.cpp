@@ -1,14 +1,14 @@
 #include "AppDelegate.h"
 #include "HelloWorldScene.h"
 //#include "SplashScene.h"
-//#include "DailyOperation.h"
+#include "DailyOperation.h"
 //#include "PeriodicReport.h"
 //#include "InsuranceReport.h"
 //#include "CarHealthReport.h"
 //#include "CarLocation.h"
 //#include "NearDistanceServicePosition.h"
 //#include "Login.h"
-#include "MainMenuScene.h"
+//#include "MainMenuScene.h"
 
 // #define USE_AUDIO_ENGINE 1
 // #define USE_SIMPLE_AUDIO_ENGINE 1
@@ -95,13 +95,13 @@ bool AppDelegate::applicationDidFinishLaunching() {
     // create a scene. it's an autorelease object
     //auto scene = HelloWorld::createScene();
     //auto scene = SplashScene::createScene();
-    //auto scene = DailyOperation::createScene();
+    auto scene = DailyOperation::createScene();
     //auto scene = PeriodicReport::createScene();
     //auto scene = InsuranceReport::createScene();
     //auto scene = CarHealthReport::createScene();
     //auto scene = NearDistanceServicePosition::createScene();
     //auto scene = Login::createScene();
-    auto scene = MainMenuScene::createScene();
+    //auto scene = MainMenuScene::createScene();
 
     // run
     director->runWithScene(scene);

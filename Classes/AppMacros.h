@@ -20,7 +20,7 @@ using namespace rapidjson;
 static Size visibleSize = Director::getInstance()->getVisibleSize();
 static Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-#define MAINFONT "fonts/IRAN Sans.ttf"
+#define MAINFONT "fonts/B Titr Bold.ttf"
 
 #define DAILY_OPERATION 1001
 #define PERIODIC_REPORT 1002
@@ -72,6 +72,8 @@ struct SpecificationOptions
     Sprite *line;
     string side;
     bool  isPressed;
+    Vec2 mainPosition;
+    Sprite *title;
 };
 
 struct ValueDailyOperation
