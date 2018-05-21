@@ -38,16 +38,18 @@ DailyOperation *DailyOperation::initDailyOperation() {
         auto mainTitle = LabelTTF::create(TITLE_DAILY_OPERATION, MAINFONT, 30);
         mainTitle->setPosition(Vec2(dailyOperation->visibleSize.width - 20, dailyOperation->visibleSize.height - mainTitle->getContentSize().height - 50));
         mainTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
-        mainTitle->setColor(Color3B::BLACK);
+        mainTitle->setColor(Color3B::WHITE);
         dailyOperation->addChild(mainTitle);
 
         dailyOperation->backScore = Sprite::create("backScore.png");
         dailyOperation->backScore->setPosition(Vec2(dailyOperation->visibleSize.width / 2 + dailyOperation->origin.x,
-                                    dailyOperation->visibleSize.height - dailyOperation->backScore->getContentSize().height / 2 - 80));
+                                    dailyOperation->visibleSize.height - dailyOperation->backScore->getContentSize().height / 2 - 100));
 
-        dailyOperation->backScore->runAction(RepeatForever::create(Sequence::create(RotateTo::create(0.5, 10),
-                                                                                    RotateTo::create(0.5, -10),
-                                                                                    nullptr)));
+        auto action = Sequence::create(
+                CallFunc::create( std::bind( &DailyOperation::repeatForever, dailyOperation, dailyOperation->backScore) ),
+                nullptr);
+
+        dailyOperation->backScore->runAction(action);
 
         dailyOperation->addChild(dailyOperation->backScore);
 
@@ -85,6 +87,16 @@ DailyOperation *DailyOperation::initDailyOperation() {
         initValueDailyOperation.speedLimit = 0;
         initValueDailyOperation.harshDrive = 0.01;
         initValueDailyOperation.unsafeFieldDrive = 0.05;
+
+        for(int i = 0; i < 6; i++)
+        {
+            auto layout = Layout::create();
+            layout->setBackGroundImage("gradiant_edit.png");
+            layout->setBackGroundImageScale9Enabled(true);
+            layout->setContentSize(Size(400, 50));
+            layout->setPosition(Vec2(35, scoreTitle->getPositionY() - 120 - ((layout->getContentSize().height + 15) * i)));
+            dailyOperation->addChild(layout);
+        }
 
         /*for(int i = 0; i < 7; i++)
         {
@@ -171,4 +183,11 @@ void DailyOperation::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, coco
 void DailyOperation::update(float dt)
 {
     backScore->runAction(RepeatForever::create(RotateTo::create(0.5, 10)));
+}
+
+void DailyOperation::repeatForever(Node* sender)
+{
+    auto repeat = RepeatForever::create( RotateBy::create(20.0f, 360) );
+
+    sender->runAction(repeat);
 }

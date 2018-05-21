@@ -22,6 +22,7 @@ public:
     static DailyOperation* initDailyOperation();
     void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *pEvent);
     void update(float dt);
+    void repeatForever(Node* sender);
 
     Size visibleSize;
     Vec2 origin;
