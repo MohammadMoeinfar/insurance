@@ -76,6 +76,15 @@ struct SpecificationOptions
     Sprite *title;
 };
 
+struct lstLayoutOfListviwe
+{
+    Vec2 mainPosition;
+    Vec2 mainPositionTitle;
+    Layout* layout;
+    LabelTTF* title;
+    LabelTTF* value;
+};
+
 struct ValueDailyOperation
 {
     float mileage  = 0.0;

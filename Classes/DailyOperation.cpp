@@ -74,7 +74,6 @@ DailyOperation *DailyOperation::initDailyOperation() {
         string textArray [] = {MILEAGE,
                                MILEAGE_UNIT,
                                DRIVE_TIME,
-                               SCORE,
                                SPEED_LIMIT,
                                HARSH_DRIVE,
                                UNSAFE_FIELD_DRIVE};
@@ -115,14 +114,83 @@ DailyOperation *DailyOperation::initDailyOperation() {
 
         for(int i = 0; i < 6; i++)
         {
+            lstLayoutOfListviwe layoutOfListviwe;
+
             Widget* item = default_item->clone();
 
             auto layout = Layout::create();
             layout->setBackGroundImage("gradiant_edit.png");
             layout->setBackGroundImageScale9Enabled(true);
             layout->setContentSize(Size(400, 50));
-            layout->setPosition(Vec2(40, default_item->getContentSize().height / 2));
+            layout->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+            layout->setTouchEnabled(true);
+            layout->setPosition(Vec2(240, default_item->getContentSize().height + 50));
+            layout->addTouchEventListener(CC_CALLBACK_2(DailyOperation::eventLayout, dailyOperation));
+            layout->setTag(2001 + i);
             item->addChild(layout);
+
+            auto titles = LabelTTF::create(textArray[i], MAINFONT, 20);
+            titles->setPosition(Vec2(layout->getContentSize().width / 2, layout->getContentSize().height - titles->getContentSize().height / 2 - 5));
+            titles->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+            titles->setColor(Color3B::WHITE);
+            layout->addChild(titles);
+
+            auto values = LabelTTF::create();
+            values->setPosition(Vec2(titles->getPositionX(), titles->getPositionY() - 10));
+            values->setColor(Color3B::WHITE);
+            values->setFontName(MAINFONT);
+            values->setFontSize(25);
+            values->setOpacity(0);
+            layout->addChild(values);
+
+            switch (i)
+            {
+                case 0:
+                {
+                    values->setString(StringUtils::format("%.3f", initValueDailyOperation.mileage));
+                }
+                    break;
+                case 1:
+                {
+                    values->setString("Km");
+                }
+                    break;
+                case 2:
+                {
+                    values->setString(initValueDailyOperation.driveTime);
+                }
+                    break;
+                /*case 3:
+                {
+                    values->setString(StringUtils::format("%.3f", initValueDailyOperation.score));
+                }
+                    break;*/
+                case 3:
+                {
+                    values->setString(StringUtils::format("%.3f", initValueDailyOperation.speedLimit));
+                }
+                    break;
+                case 4:
+                {
+                    values->setString(StringUtils::format("%.3f", initValueDailyOperation.harshDrive));
+                }
+                    break;
+                case 5:
+                {
+                    values->setString(StringUtils::format("%.3f", initValueDailyOperation.unsafeFieldDrive));
+                }
+                    break;
+                default:
+                    break;
+            }
+
+            layoutOfListviwe.layout = layout;
+            layoutOfListviwe.title = titles;
+            layoutOfListviwe.value = values;
+            layoutOfListviwe.mainPosition = layout->getPosition();
+            layoutOfListviwe.mainPositionTitle = titles->getPosition();
+
+            dailyOperation->listLayout.push_back(layoutOfListviwe);
 
             dailyOperation->listView->pushBackCustomItem(item);
         }
@@ -219,4 +287,75 @@ void DailyOperation::repeatForever(Node* sender)
     auto repeat = RepeatForever::create( RotateBy::create(20.0f, 360) );
 
     sender->runAction(repeat);
+}
+
+void DailyOperation::eventLayout(Ref *pSender, Widget::TouchEventType type)
+{
+    Layout* sender = (Layout*) pSender;
+
+    switch (type)
+    {
+        case Widget::TouchEventType::ENDED:
+        {
+            if(sender->getContentSize().height == 50)
+            {
+                sender->runAction(Spawn::create(
+                        ResizeTo::create(0.5, Size(400, 100)),
+                        CallFunc::create([&, this](){
+                            for(auto item : listLayout)
+                            {
+                                if(item.layout->getTag() == sender->getTag())
+                                {
+                                    item.title->runAction(MoveTo::create(0.5, Vec2(item.mainPositionTitle.x, item.mainPositionTitle.y + 50)));
+                                    item.value->runAction(FadeTo::create(0.5, 255));
+                                }
+                            }
+                        }), nullptr));
+            }
+            else
+            {
+                sender->runAction(Spawn::create(
+                        ResizeTo::create(0.5, Size(400, 50)),
+                        CallFunc::create([&, this](){
+                            for(auto item : listLayout)
+                            {
+                                if(item.layout->getTag() == sender->getTag())
+                                {
+                                    item.title->runAction(MoveTo::create(0.5, Vec2(item.mainPositionTitle.x, item.mainPositionTitle.y)));
+                                    item.value->runAction(FadeTo::create(0.5, 0));
+                                }
+                                else
+                                {
+                                    item.layout->runAction(MoveTo::create(0.5, item.mainPosition));
+                                }
+                            }
+                        }), nullptr));
+            }
+
+            for(auto item : listLayout)
+            {
+                if(item.layout->getTag() != sender->getTag())
+                {
+                    item.layout->setContentSize(Size(400, 50));
+                    item.value->setOpacity(0);
+                    item.title->setPosition(item.mainPositionTitle);
+                }
+
+                if(item.layout->getTag() > sender->getTag())
+                {
+                    item.layout->setPositionY(item.mainPosition.y);
+                    item.layout->setPositionY(item.layout->getPositionY() - 50);
+                    //item.title->setPosition(item.mainPositionTitle);
+                }
+                else
+                {
+                    item.layout->setPositionY(item.mainPosition.y);
+                    //item.title->setPosition(item.mainPositionTitle);
+                }
+            }
+        }
+            break;
+        default:
+            break;
+    }
 }

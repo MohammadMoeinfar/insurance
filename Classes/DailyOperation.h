@@ -23,12 +23,13 @@ public:
     void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *pEvent);
     void update(float dt);
     void repeatForever(Node* sender);
+    void eventLayout(Ref* pSender, Widget::TouchEventType type);
 
     Size visibleSize;
     Vec2 origin;
     Sprite* backScore;
     ListView* listView;
-    std::vector<Layout*> listLayout;
+    std::vector<lstLayoutOfListviwe> listLayout;
 
     CREATE_FUNC(DailyOperation);
 
