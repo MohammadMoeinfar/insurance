@@ -28,6 +28,7 @@ public:
     Vec2 origin;
     Sprite* backScore;
     ListView* listView;
+    std::vector<Layout*> listLayout;
 
     CREATE_FUNC(DailyOperation);
 

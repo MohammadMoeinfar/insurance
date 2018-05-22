@@ -95,8 +95,8 @@ DailyOperation *DailyOperation::initDailyOperation() {
         dailyOperation->listView->setBounceEnabled(true);
         dailyOperation->listView->setBackGroundColorOpacity(100);
         dailyOperation->listView->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-        dailyOperation->listView->setContentSize(Size(scrollViewSize.width, scrollViewSize.height - 480));
-        dailyOperation->listView->setPosition(Vec2(dailyOperation->visibleSize.width / 2 + dailyOperation->origin.x, dailyOperation->visibleSize.height / 2  + dailyOperation->origin.y + 55));
+        dailyOperation->listView->setContentSize(Size(scrollViewSize.width, scrollViewSize.height - 200));
+        dailyOperation->listView->setPosition(Vec2(dailyOperation->visibleSize.width / 2 + dailyOperation->origin.x, scoreTitle->getPositionY() - 355));
         dailyOperation->listView->setScrollBarPositionFromCorner(Vec2(4, 4));
         dailyOperation->addChild(dailyOperation->listView);
 
@@ -107,7 +107,7 @@ DailyOperation *DailyOperation::initDailyOperation() {
 
         dailyOperation->listView->setItemModel(default_item);
         dailyOperation->listView->setGravity(ListView::Gravity::TOP);
-        dailyOperation->listView->setItemsMargin(1);
+        dailyOperation->listView->setItemsMargin(1.5);
         dailyOperation->listView->forceDoLayout();
         dailyOperation->listView->setInnerContainerSize(Size(scrollViewSize.width, scrollViewSize.height*1.1));
         //dailyOperation->listView->addEventListener((ui::ListView::ccListViewCallback)CC_CALLBACK_2(BallsList::selectedItemEvent, this));
@@ -121,7 +121,7 @@ DailyOperation *DailyOperation::initDailyOperation() {
             layout->setBackGroundImage("gradiant_edit.png");
             layout->setBackGroundImageScale9Enabled(true);
             layout->setContentSize(Size(400, 50));
-            layout->setPosition(Vec2(35, scoreTitle->getPositionY() - 100 - ((layout->getContentSize().height + 5) * i)));
+            layout->setPosition(Vec2(40, default_item->getContentSize().height / 2));
             item->addChild(layout);
 
             dailyOperation->listView->pushBackCustomItem(item);
