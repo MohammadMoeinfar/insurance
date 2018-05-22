@@ -99,5 +99,5 @@ dependencies {
     //noinspection GradleCompatible
     compile 'com.android.support:appcompat-v7:25.1.0'
     compile 'com.google.android.gms:play-services-maps:10.2.0'
-    compile 'com.google.maps.android:android-maps-utils:0.5+'
+    //compile 'com.google.maps.android:android-maps-utils:0.5+'
 }

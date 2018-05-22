@@ -36,7 +36,7 @@ DailyOperation *DailyOperation::initDailyOperation() {
         dailyOperation->addChild(layerColor);
 
         auto mainTitle = LabelTTF::create(TITLE_DAILY_OPERATION, MAINFONT, 30);
-        mainTitle->setPosition(Vec2(dailyOperation->visibleSize.width - 20, dailyOperation->visibleSize.height - mainTitle->getContentSize().height - 50));
+        mainTitle->setPosition(Vec2(dailyOperation->visibleSize.width - 20, dailyOperation->visibleSize.height - mainTitle->getContentSize().height - 20));
         mainTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
         mainTitle->setColor(Color3B::WHITE);
         dailyOperation->addChild(mainTitle);
@@ -88,14 +88,43 @@ DailyOperation *DailyOperation::initDailyOperation() {
         initValueDailyOperation.harshDrive = 0.01;
         initValueDailyOperation.unsafeFieldDrive = 0.05;
 
+        Size scrollViewSize(layerColor->getContentSize().width, layerColor->getContentSize().height);
+
+        dailyOperation->listView = cocos2d::ui::ListView::create();
+        dailyOperation->listView->setDirection(ui::ScrollView::Direction::VERTICAL);
+        dailyOperation->listView->setBounceEnabled(true);
+        dailyOperation->listView->setBackGroundColorOpacity(100);
+        dailyOperation->listView->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+        dailyOperation->listView->setContentSize(Size(scrollViewSize.width, scrollViewSize.height - 480));
+        dailyOperation->listView->setPosition(Vec2(dailyOperation->visibleSize.width / 2 + dailyOperation->origin.x, dailyOperation->visibleSize.height / 2  + dailyOperation->origin.y + 55));
+        dailyOperation->listView->setScrollBarPositionFromCorner(Vec2(4, 4));
+        dailyOperation->addChild(dailyOperation->listView);
+
+        Layout* default_item = Layout::create();
+        default_item->setTouchEnabled(true);
+        default_item->setContentSize(Size(400, 50));
+        dailyOperation->listView->addChild(default_item);
+
+        dailyOperation->listView->setItemModel(default_item);
+        dailyOperation->listView->setGravity(ListView::Gravity::TOP);
+        dailyOperation->listView->setItemsMargin(1);
+        dailyOperation->listView->forceDoLayout();
+        dailyOperation->listView->setInnerContainerSize(Size(scrollViewSize.width, scrollViewSize.height*1.1));
+        //dailyOperation->listView->addEventListener((ui::ListView::ccListViewCallback)CC_CALLBACK_2(BallsList::selectedItemEvent, this));
+        dailyOperation->listView->jumpToTop();
+
         for(int i = 0; i < 6; i++)
         {
+            Widget* item = default_item->clone();
+
             auto layout = Layout::create();
             layout->setBackGroundImage("gradiant_edit.png");
             layout->setBackGroundImageScale9Enabled(true);
             layout->setContentSize(Size(400, 50));
-            layout->setPosition(Vec2(35, scoreTitle->getPositionY() - 120 - ((layout->getContentSize().height + 15) * i)));
-            dailyOperation->addChild(layout);
+            layout->setPosition(Vec2(35, scoreTitle->getPositionY() - 100 - ((layout->getContentSize().height + 5) * i)));
+            item->addChild(layout);
+
+            dailyOperation->listView->pushBackCustomItem(item);
         }
 
         /*for(int i = 0; i < 7; i++)

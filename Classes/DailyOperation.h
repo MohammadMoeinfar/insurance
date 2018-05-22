@@ -27,6 +27,7 @@ public:
     Size visibleSize;
     Vec2 origin;
     Sprite* backScore;
+    ListView* listView;
 
     CREATE_FUNC(DailyOperation);
 
