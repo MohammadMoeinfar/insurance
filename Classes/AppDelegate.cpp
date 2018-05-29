@@ -101,8 +101,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
     //auto scene = InsuranceReport::createScene();
     //auto scene = CarHealthReport::createScene();
     //auto scene = NearDistanceServicePosition::createScene();
-    //auto scene = Login::createScene();
-    auto scene = MainMenuScene::createScene();
+    auto scene = Login::createScene();
+    //auto scene = MainMenuScene::createScene();
 
     // run
     director->runWithScene(scene);

@@ -106,9 +106,9 @@ CarHealthReport *CarHealthReport::initCarHealthReport() {
 				tempLayout->addChild(titles);
 
 				auto backField = ImageView::create("backField.png");
-				backField->setContentSize(Size(220, 25));
+				backField->setContentSize(Size(240, 25));
 				backField->setScale9Enabled(true);
-				backField->setPosition(Vec2(120, tempLayout->getContentSize().height - 50 - (50 * (j - 1))));
+				backField->setPosition(Vec2(140, tempLayout->getContentSize().height - 50 - (50 * (j - 1))));
 				backField->setOpacity(0);
 				tempLayout->addChild(backField);
 
@@ -126,12 +126,12 @@ CarHealthReport *CarHealthReport::initCarHealthReport() {
 				{
 					switch (j)
 					{
-					case 1: values->setString(StringUtils::format("%i", initListOfCarHealth.theUnitEngine.EcuName));
-						break;
-					case 2: values->setString(StringUtils::format("%i", initListOfCarHealth.theUnitEngine.p001));
-						break;
-					case 3: values->setString(StringUtils::format("%i", initListOfCarHealth.theUnitEngine.u034));
-						break;
+                        /*case 1: values->setString(initListOfCarHealth.theUnitEngine.EcuName);
+                            break;*/
+                        case 1: values->setString(initListOfCarHealth.theUnitEngine.p001);
+                            break;
+                        case 2: values->setString(initListOfCarHealth.theUnitEngine.u034);
+                            break;
 					}
 				}
 				break;
@@ -139,12 +139,12 @@ CarHealthReport *CarHealthReport::initCarHealthReport() {
 				{
 					switch (j)
 					{
-					case 1: values->setString(StringUtils::format("%i", initListOfCarHealth.theUnitEngine.EcuName));
-						break;
-					case 2: values->setString(StringUtils::format("%i", initListOfCarHealth.theUnitEngine.p001));
-						break;
-					case 3: values->setString(StringUtils::format("%i", initListOfCarHealth.theUnitEngine.u034));
-						break;
+                        /*case 1: values->setString(initListOfCarHealth.theUnitABS.EcuName);
+                            break;*/
+                        case 1: values->setString(initListOfCarHealth.theUnitABS.p001);
+                            break;
+                        case 2: values->setString(initListOfCarHealth.theUnitABS.u034);
+                            break;
 					}
 				}
 				break;
@@ -152,12 +152,12 @@ CarHealthReport *CarHealthReport::initCarHealthReport() {
 				{
 					switch (j)
 					{
-					case 1: values->setString(StringUtils::format("%i", initListOfCarHealth.theUnitEngine.EcuName));
-						break;
-					case 2: values->setString(StringUtils::format("%i", initListOfCarHealth.theUnitEngine.p001));
-						break;
-					case 3: values->setString(StringUtils::format("%i", initListOfCarHealth.theUnitEngine.u034));
-						break;
+                        /*case 1: values->setString(initListOfCarHealth.theUnitBSI.EcuName);
+                            break;*/
+                        case 1: values->setString(initListOfCarHealth.theUnitBSI.p001);
+                            break;
+                        case 2: values->setString(initListOfCarHealth.theUnitBSI.u034);
+                            break;
 					}
 				}
 				break;

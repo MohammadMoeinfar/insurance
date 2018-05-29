@@ -21,6 +21,7 @@ static Size visibleSize = Director::getInstance()->getVisibleSize();
 static Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
 #define MAINFONT "fonts/B Titr Bold.ttf"
+#define LOGINFONT "fonts/arial.ttf"
 
 #define DAILY_OPERATION 1001
 #define PERIODIC_REPORT 1002

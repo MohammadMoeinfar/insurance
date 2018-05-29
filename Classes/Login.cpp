@@ -45,7 +45,7 @@ Login *Login::initLogin() {
         backusername->setPosition(Vec2(login->visibleSize.width / 2 + login->origin.x, login->visibleSize.height / 2 + login->origin.y));
         login->addChild(backusername);
 
-        login->textFieldUsername = TextField::create("User Name",MAINFONT,35);
+        login->textFieldUsername = TextField::create("User Name",MAINFONT,25);
         login->textFieldUsername->ignoreContentAdaptWithSize(false);
         ((Label*)(login->textFieldUsername->getVirtualRenderer()))->setLineBreakWithoutSpace(true);
         login->textFieldUsername->setContentSize(Size(267, 40));
