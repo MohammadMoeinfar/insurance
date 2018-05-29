@@ -21,9 +21,12 @@ public:
     static Scene* createScene();
     static InsuranceReport* initInsuranceReport();
     void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *pEvent);
+    void eventLayout(Ref* pSender, Widget::TouchEventType type);
+	void setOpacityTempLayout(lstLayoutOfInsurnceReport listLayout, bool isActive);
 
     Size visibleSize;
     Vec2 origin;
+	std::vector<lstLayoutOfInsurnceReport> listLayout;
 
     CREATE_FUNC(InsuranceReport);
 };

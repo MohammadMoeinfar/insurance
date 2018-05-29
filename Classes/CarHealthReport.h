@@ -21,9 +21,12 @@ public:
     static Scene* createScene();
     static CarHealthReport* initCarHealthReport();
     void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *pEvent);
+	void eventLayout(Ref* pSender, Widget::TouchEventType type);
+	void setOpacityTempLayout(lstLayoutOfCarHealthReport listLayout, bool isActive);
 
-    Size visibleSize;
-    Vec2 origin;
+	Size visibleSize;
+	Vec2 origin;
+	std::vector<lstLayoutOfCarHealthReport> listLayout;
 
     CREATE_FUNC(CarHealthReport);
 

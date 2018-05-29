@@ -21,9 +21,14 @@ public:
     static Scene* createScene();
     static PeriodicReport* initPeriodicReport();
     void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *pEvent);
+    void repeatForever(Node* sender);
+    void eventLayout(Ref* pSender, Widget::TouchEventType type);
 
     Size visibleSize;
     Vec2 origin;
+    Sprite* backScore;
+    ListView* listView;
+    std::vector<lstLayoutOfListviwe> listLayout;
 
     CREATE_FUNC(PeriodicReport);
 };

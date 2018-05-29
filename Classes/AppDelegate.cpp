@@ -84,6 +84,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
     // Set the design resolution
     glview->setDesignResolutionSize(designResolutionSize.width, designResolutionSize.height, ResolutionPolicy::FIXED_WIDTH);
+	
     Size frameSize = glview->getFrameSize();
     // if the frame's height is larger than the height of medium size.
     //if (frameSize.height > mediumResolutionSize.height)
@@ -95,13 +96,13 @@ bool AppDelegate::applicationDidFinishLaunching() {
     // create a scene. it's an autorelease object
     //auto scene = HelloWorld::createScene();
     //auto scene = SplashScene::createScene();
-    auto scene = DailyOperation::createScene();
+    //auto scene = DailyOperation::createScene();
     //auto scene = PeriodicReport::createScene();
     //auto scene = InsuranceReport::createScene();
     //auto scene = CarHealthReport::createScene();
     //auto scene = NearDistanceServicePosition::createScene();
     //auto scene = Login::createScene();
-    //auto scene = MainMenuScene::createScene();
+    auto scene = MainMenuScene::createScene();
 
     // run
     director->runWithScene(scene);

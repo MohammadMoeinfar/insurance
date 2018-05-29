@@ -32,14 +32,23 @@ DailyOperation *DailyOperation::initDailyOperation() {
 
         //dailyOperation->scheduleUpdate();
 
-        auto layerColor = LayerGradient::create(Color4B(29, 34, 74, 255), Color4B(45, 150, 214, 255));
+        auto layerColor = LayerGradient::create(Color4B(186, 104, 200, 150), Color4B(186, 104, 200, 0));
         dailyOperation->addChild(layerColor);
 
         auto mainTitle = LabelTTF::create(TITLE_DAILY_OPERATION, MAINFONT, 30);
         mainTitle->setPosition(Vec2(dailyOperation->visibleSize.width - 20, dailyOperation->visibleSize.height - mainTitle->getContentSize().height - 20));
         mainTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
-        mainTitle->setColor(Color3B::WHITE);
+        mainTitle->setColor(Color3B(50, 50, 50));
         dailyOperation->addChild(mainTitle);
+
+		auto back = Button::create("back.png", "back.png");
+		back->setPosition(Vec2(back->getContentSize().width / 2 + 10, dailyOperation->visibleSize.height - back->getContentSize().height / 2 - 10));
+		back->setOpacity(150);
+		back->setTag(BACK_BUTTON);
+		back->setCascadeColorEnabled(true);
+		back->setColor(Color3B::GRAY);
+		dailyOperation->addChild(back, 40);
+		back->addTouchEventListener(CC_CALLBACK_2(DailyOperation::eventLayout, dailyOperation));
 
         dailyOperation->backScore = Sprite::create("backScore.png");
         dailyOperation->backScore->setPosition(Vec2(dailyOperation->visibleSize.width / 2 + dailyOperation->origin.x,
@@ -119,8 +128,8 @@ DailyOperation *DailyOperation::initDailyOperation() {
             Widget* item = default_item->clone();
 
             auto layout = Layout::create();
-            layout->setBackGroundImage("gradiant_edit.png");
-            layout->setBackGroundImageScale9Enabled(true);
+			layout->setBackGroundColorType(Layout::BackGroundColorType::GRADIENT);
+			layout->setBackGroundColor(Color3B(186, 104, 200), Color3B(255, 255, 255));
             layout->setContentSize(Size(400, 50));
             layout->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
             layout->setTouchEnabled(true);
@@ -132,12 +141,12 @@ DailyOperation *DailyOperation::initDailyOperation() {
             auto titles = LabelTTF::create(textArray[i], MAINFONT, 20);
             titles->setPosition(Vec2(layout->getContentSize().width / 2, layout->getContentSize().height - titles->getContentSize().height / 2 - 5));
             titles->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-            titles->setColor(Color3B::WHITE);
+            titles->setColor(Color3B(50, 50, 50));
             layout->addChild(titles);
 
             auto values = LabelTTF::create();
             values->setPosition(Vec2(titles->getPositionX(), titles->getPositionY() - 10));
-            values->setColor(Color3B::WHITE);
+            values->setColor(Color3B(50, 50, 50));
             values->setFontName(MAINFONT);
             values->setFontSize(25);
             values->setOpacity(0);
@@ -195,69 +204,6 @@ DailyOperation *DailyOperation::initDailyOperation() {
             dailyOperation->listView->pushBackCustomItem(item);
         }
 
-        /*for(int i = 0; i < 7; i++)
-        {
-            auto titles = LabelTTF::create(textArray[i], MAINFONT, 25);
-            titles->setPosition(Vec2(mainTitle->getPositionX(), mainTitle->getPositionY() - 150 - ((titles->getContentSize().height + 20) * i)));
-            titles->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
-            titles->setColor(Color3B::BLACK);
-            dailyOperation->addChild(titles);
-
-            auto backField = ImageView::create("backField.png");
-            backField->setContentSize(Size(200, 35));
-            backField->setScale9Enabled(true);
-            backField->setPosition(Vec2(backField->getContentSize().width - 80, mainTitle->getPositionY() - 150 - ((titles->getContentSize().height + 20) * i)));
-            dailyOperation->addChild(backField);
-
-            auto values = LabelTTF::create();
-            values->setPosition(Vec2(backField->getPositionX(), backField->getPositionY()));
-            values->setColor(Color3B::BLACK);
-            values->setFontName(MAINFONT);
-            values->setFontSize(25);
-            dailyOperation->addChild(values);
-
-            switch (i)
-            {
-                case 0:
-                {
-                    values->setString(StringUtils::format("%.3f", initValueDailyOperation.mileage));
-                }
-                    break;
-                case 1:
-                {
-                    values->setString("Km");
-                }
-                    break;
-                case 2:
-                {
-                    values->setString(initValueDailyOperation.driveTime);
-                }
-                    break;
-                case 3:
-                {
-                    values->setString(StringUtils::format("%.3f", initValueDailyOperation.score));
-                }
-                    break;
-                case 4:
-                {
-                    values->setString(StringUtils::format("%.3f", initValueDailyOperation.speedLimit));
-                }
-                    break;
-                case 5:
-                {
-                    values->setString(StringUtils::format("%.3f", initValueDailyOperation.harshDrive));
-                }
-                    break;
-                case 6:
-                {
-                    values->setString(StringUtils::format("%.3f", initValueDailyOperation.unsafeFieldDrive));
-                }
-                    break;
-                default:
-                    break;
-            }
-        }*/
-
         auto pKeybackListener = EventListenerKeyboard::create();
         pKeybackListener->onKeyReleased = CC_CALLBACK_2(DailyOperation::onKeyReleased, dailyOperation);
         dailyOperation->_eventDispatcher->addEventListenerWithSceneGraphPriority(pKeybackListener, dailyOperation);
@@ -297,6 +243,15 @@ void DailyOperation::eventLayout(Ref *pSender, Widget::TouchEventType type)
     {
         case Widget::TouchEventType::ENDED:
         {
+			switch (sender->getTag())
+			{
+			case BACK_BUTTON:
+			{
+				auto scene = MainMenuScene::createScene();
+				Director::getInstance()->replaceScene(TransitionMoveInL::create(0.3, scene));
+			}
+			}
+
             if(sender->getContentSize().height == 50)
             {
                 sender->runAction(Spawn::create(

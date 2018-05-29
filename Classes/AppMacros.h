@@ -28,6 +28,10 @@ static Vec2 origin = Director::getInstance()->getVisibleOrigin();
 #define CAR_HEALTH_REPORT 1004
 #define CAR_POSITION 1005
 #define NEAR_DISTANCE_SERVICE_POSITION 1006
+#define THIRDPARTY_TAG 1007
+#define CARBODY_TAG 1008
+#define LIFE_HEALTH_TAG 1009
+#define BACK_BUTTON 1010
 
 #define TITLELOGINBUTTON "ورود"
 #define WRONG_USERNAME_PASSWORD "نام کاربری یا پسورد اشتباه است"
@@ -83,6 +87,24 @@ struct lstLayoutOfListviwe
     Layout* layout;
     LabelTTF* title;
     LabelTTF* value;
+};
+
+struct lstLayoutOfInsurnceReport
+{
+	Vec2 mainPositionTitle;
+	Layout* layout;
+	Layout* tempLayout;
+	LabelTTF* title;
+	bool isActive;
+};
+
+struct lstLayoutOfCarHealthReport
+{
+	Vec2 mainPositionTitle;
+	Layout* layout;
+	Layout* tempLayout;
+	LabelTTF* title;
+	bool isActive;
 };
 
 struct ValueDailyOperation
@@ -174,21 +196,21 @@ static std::vector <std::vector < std::string > > initInsurances()
     std::vector <std::vector < std::string > >arrTitlesInsuranceReport =
             {
                     {
-                            {INSURANCE_TITLE},
+                            {THIRDPARTY},
                             {INSURANCE_ID},
                             {INSURANCE_START},
                             {INSURANCE_END},
                             {MORE_DESCRIPTION}
                     },
                     {
-                            {INSURANCE_TITLE},
+                            {CARBODY},
                             {INSURANCE_ID},
                             {INSURANCE_START},
                             {INSURANCE_END},
                             {MORE_DESCRIPTION}
                     },
                     {
-                            {INSURANCE_TITLE},
+                            {LIFE_HEALTH},
                             {INSURANCE_ID},
                             {INSURANCE_START},
                             {INSURANCE_END},
@@ -203,17 +225,17 @@ static std::vector <std::vector < std::string > > initCarHealth()
     std::vector <std::vector < std::string > >arrTitlesCarHealth =
             {
                     {
-                            {PART_TITLE},
+                            {ENGINE},
                             {P001},
                             {U034}
                     },
                     {
-                            {PART_TITLE},
+                            {ABS_BRAKES},
                             {P001},
                             {U034}
                     },
                     {
-                            {PART_TITLE},
+                            {BSI},
                             {P001},
                             {U034}
                     }

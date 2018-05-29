@@ -1,6 +1,5 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
-#include <jni.h>
 
 USING_NS_CC;
 
